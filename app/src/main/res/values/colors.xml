@@ -7,5 +7,9 @@
     <color name="title_bg">#AAAAAA</color>
     <color name="text_gray">#8E8E8E</color>
     <color name="text_dark">#333333</color>
-    <color name="common_bg">#f4f4f4</color>
+    <color name="text_dark2">#636363</color>
+    <color name="common_bg">#f0eff3</color>
+    <color name="ind_red">#FFA54F</color>
+    <color name="blue_light">#00C0E4</color>
+    <color name="material_orange">#FFA54F</color>
 </resources>

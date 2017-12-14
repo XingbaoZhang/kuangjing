@@ -33,20 +33,9 @@
             android:layout_height="40dp"
             android:layout_margin="18dp"
             android:background="@drawable/edit_bg"
+            android:id="@+id/search"
             android:orientation="horizontal"
             android:padding="2dp">
-
-            <EditText
-                android:id="@+id/yhm"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="#ffffff"
-                android:gravity="center"
-                android:hint="输入关键字"
-                android:textColor="@color/text_dark"
-                android:textColorHint="@color/text_gray"
-                android:textSize="12sp" />
 
             <LinearLayout
                 android:layout_width="50dp"
@@ -55,10 +44,25 @@
 
                 <ImageView
                     android:id="@+id/cx"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
                     android:src="@mipmap/cx" />
             </LinearLayout>
+
+            <TextView
+                android:id="@+id/yhm"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="#ffffff"
+                android:gravity="center"
+                android:hint="输入关键字"
+                android:paddingRight="25dp"
+                android:textColor="@color/text_dark"
+                android:textColorHint="@color/text_gray"
+                android:textSize="12sp" />
+
+
         </LinearLayout>
 
         <LinearLayout
@@ -66,131 +70,156 @@
             android:layout_height="80dp"
             android:background="#ffffff"
             android:orientation="horizontal">
+
             <LinearLayout
                 android:layout_width="0dp"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:layout_height="match_parent"
+                android:id="@+id/bzgl"
                 android:orientation="vertical">
+
                 <ImageView
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:src="@mipmap/bzgl"/>
+                    android:src="@mipmap/bzgl" />
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:gravity="center"
-                    android:textSize="13sp"
+                    android:text="标准管理"
                     android:textColor="#093870"
-                    android:text="标准管理"/>
+                    android:textSize="13sp" />
             </LinearLayout>
+
             <View
                 android:layout_width="0.5dp"
-                android:layout_marginTop="10dp"
+                android:layout_height="match_parent"
                 android:layout_marginBottom="10dp"
-                android:background="@color/text_dark"
-                android:layout_height="match_parent"></View>
+                android:layout_marginTop="10dp"
+                android:background="@color/text_dark"></View>
+
             <LinearLayout
                 android:layout_width="0dp"
+                android:id="@+id/scgl"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:layout_height="match_parent"
                 android:orientation="vertical">
+
                 <ImageView
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:src="@mipmap/scgl"/>
+                    android:src="@mipmap/scgl" />
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:gravity="center"
-                    android:textSize="13sp"
+                    android:text="手册管理"
                     android:textColor="#093870"
-                    android:text="手册管理"/>
+                    android:textSize="13sp" />
             </LinearLayout>
+
             <View
                 android:layout_width="0.5dp"
-                android:layout_marginTop="10dp"
+                android:layout_height="match_parent"
                 android:layout_marginBottom="10dp"
-                android:background="@color/text_dark"
-                android:layout_height="match_parent"></View>
+                android:layout_marginTop="10dp"
+                android:background="@color/text_dark"></View>
+
             <LinearLayout
                 android:layout_width="0dp"
+                android:id="@+id/zdgl"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:layout_height="match_parent"
                 android:orientation="vertical">
+
                 <ImageView
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:src="@mipmap/zdgl"/>
+                    android:src="@mipmap/zdgl" />
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:gravity="center"
-                    android:textSize="13sp"
+                    android:text="制度管理"
                     android:textColor="#093870"
-                    android:text="制度管理"/>
+                    android:textSize="13sp" />
             </LinearLayout>
         </LinearLayout>
+
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"
             android:layout_marginTop="10dp"
+            android:layout_weight="1"
             android:background="@mipmap/bg02"
             android:orientation="horizontal">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="80dp"
                 android:background="#ffffff"
                 android:orientation="horizontal">
+
                 <LinearLayout
                     android:layout_width="0dp"
+                    android:id="@+id/grzx"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:layout_height="match_parent"
                     android:orientation="horizontal">
+
                     <ImageView
                         android:layout_width="40dp"
                         android:layout_height="40dp"
-                        android:src="@mipmap/grzx"/>
+                        android:src="@mipmap/grzx" />
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
                         android:gravity="center"
-                        android:textSize="13sp"
+                        android:text="个人中心"
                         android:textColor="#093870"
-                        android:text="个人中心"/>
+                        android:textSize="13sp" />
                 </LinearLayout>
+
                 <View
                     android:layout_width="0.5dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_height="match_parent"
                     android:layout_marginBottom="10dp"
-                    android:background="@color/text_dark"
-                    android:layout_height="match_parent"></View>
+                    android:layout_marginTop="10dp"
+                    android:background="@color/text_dark"></View>
+
                 <LinearLayout
                     android:layout_width="0dp"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:layout_height="match_parent"
+                    android:id="@+id/xzzx"
                     android:orientation="horizontal">
+
                     <ImageView
                         android:layout_width="40dp"
                         android:layout_height="40dp"
-                        android:src="@mipmap/xzzx"/>
+                        android:src="@mipmap/xzzx" />
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
                         android:gravity="center"
-                        android:textSize="13sp"
+                        android:text="下载中心"
                         android:textColor="#093870"
-                        android:text="下载中心"/>
+                        android:textSize="13sp" />
                 </LinearLayout>
 
             </LinearLayout>
