@@ -2,7 +2,6 @@ package com.kj.util;
 
 import android.app.Application;
 
-import org.litepal.LitePal;
 
 public class MyApplication extends Application {
 
@@ -19,7 +18,6 @@ public class MyApplication extends Application {
     public void onCreate() {
         super.onCreate();
         //实例化数据库
-        LitePal.initialize(this);
 
         ///////////////////////////////////////环信聊天/////////////////////////////////////
      /*   EMOptions options = new EMOptions();

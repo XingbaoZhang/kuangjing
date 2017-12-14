@@ -2,11 +2,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#ffffff"
     android:orientation="vertical">
 
     <ImageView
         android:layout_width="match_parent"
-        android:layout_height="220dp"
+        android:layout_height="0dp"
+        android:layout_weight="2"
         android:scaleType="fitXY"
         android:src="@mipmap/login_top" />
 
@@ -14,6 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
+        android:gravity="center"
         android:orientation="vertical">
 
         <LinearLayout
@@ -25,14 +28,16 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
+                android:paddingLeft="50dp"
+                android:paddingRight="50dp"
                 android:orientation="horizontal">
 
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="fill_parent"
-                    android:layout_gravity="center_vertical|right"
+                    android:layout_gravity="center_vertical"
                     android:layout_weight="1"
-                    android:gravity="center_vertical|right">
+                    android:gravity="center_vertical">
 
                     <ImageView
                         android:layout_width="30dp"
@@ -42,36 +47,40 @@
                 </LinearLayout>
 
                 <EditText
-                    android:hint="填写账户名称"
                     android:id="@+id/username"
                     android:layout_width="0dp"
                     android:layout_height="fill_parent"
                     android:layout_weight="3"
                     android:background="#ffffff"
-                    android:gravity="center" />
+                    android:gravity="center"
+                    android:textColor="@color/text_gray"
+                    android:textSize="12sp"
+                    android:textColorHint="@color/text_gray"
+                    android:hint="填写账户名称" />
             </LinearLayout>
 
         </LinearLayout>
 
         <View
-            android:layout_marginLeft="40dp"
-            android:layout_marginRight="40dp"
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
             android:background="#333333"></View>
 
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="50dp"
+            android:paddingLeft="50dp"
+            android:paddingRight="50dp"
             android:orientation="horizontal">
-d
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="fill_parent"
-                android:layout_gravity="center_vertical|right"
+                android:layout_gravity="center_vertical"
                 android:layout_weight="1"
-                android:gravity="center_vertical|right">
+                android:gravity="center_vertical">
 
                 <ImageView
                     android:layout_width="30dp"
@@ -82,68 +91,91 @@ d
 
             <EditText
                 android:id="@+id/pass"
-                android:hint="填写密码"
                 android:layout_width="0dp"
+                android:textColorHint="@color/text_gray"
+                android:textColor="@color/text_gray"
+                android:textSize="12sp"
                 android:layout_height="fill_parent"
                 android:layout_weight="3"
                 android:background="#ffffff"
-                android:gravity="center" />
+                android:gravity="center"
+                android:hint="填写密码" />
         </LinearLayout>
 
     </LinearLayout>
-<LinearLayout
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:gravity="center"
-    android:orientation="horizontal">
-    <CheckBox
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:text="记住账号密码"
-        android:id="@+id/zhmm"/>
-</LinearLayout>
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="40dp"
-    android:gravity="center">
-    <LinearLayout
-        android:layout_width="0dp"
-        android:layout_weight="1"
-        android:gravity="center"
-        android:layout_height="match_parent">
-<ImageView
-    android:layout_width="100dp"
-    android:layout_height="35dp"
-    android:gravity="center"
-    android:src="@mipmap/dl"
-    android:id="@+id/dl"/>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="0dp"
-        android:layout_weight="1"
-        android:gravity="center"
-        android:layout_height="match_parent">
-        <ImageView
-            android:layout_width="100dp"
-            android:layout_height="35dp"
-            android:src="@mipmap/zc"
-            android:id="@+id/zc"/>
-    </LinearLayout>
-</LinearLayout>
 
-</LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <CheckBox
+                android:id="@+id/zhmm"
+                android:textSize="10sp"
+                android:layout_marginLeft="50dp"
+                android:textColor="@color/text_gray"
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:layout_gravity="center_vertical"
+                android:text="记住账号密码" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp"
+            android:gravity="center">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center_vertical|right"
+                android:layout_marginRight="8dp">
+
+                <ImageView
+                    android:id="@+id/login"
+                    android:layout_width="wrap_content"
+                    android:layout_height="35dp"
+                    android:gravity="center"
+                    android:scaleType="fitXY"
+                    android:src="@mipmap/dl" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center_vertical|left"
+                android:layout_marginLeft="8dp">
+
+                <ImageView
+                    android:id="@+id/regist"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:scaleType="fitXY"
+                    android:src="@mipmap/zc" />
+            </LinearLayout>
+        </LinearLayout>
+
+    </LinearLayout>
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:gravity="center"
+        android:layout_marginTop="30dp"
+        android:background="#FAFAFA"
         android:text="Copy版权所有"
         android:textColor="@color/login_bottom"
-        android:textSize="13sp" />
+        android:textSize="10sp" />
 </LinearLayout>
 
 
