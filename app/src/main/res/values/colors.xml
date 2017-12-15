@@ -8,8 +8,11 @@
     <color name="text_gray">#8E8E8E</color>
     <color name="text_dark">#333333</color>
     <color name="text_dark2">#636363</color>
+    <color name="login_head_view_bgcolor">#00bac5</color>
     <color name="common_bg">#f0eff3</color>
     <color name="ind_red">#FFA54F</color>
     <color name="blue_light">#00C0E4</color>
     <color name="material_orange">#FFA54F</color>
+    <color name="common_blue">#00bac5</color>
+    <color name="common_blue_1">#5ecdd4</color>
 </resources>

@@ -50,5 +50,17 @@ public class MainActivity extends MyBaseActivity {
                 openActivity(ActivityGrzx.class);
             }
         });
+        scgl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openActivity(ActivitySc.class);
+            }
+        });
+        xzzx.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openActivity(ActivityXzzx.class);
+            }
+        });
     }
 }

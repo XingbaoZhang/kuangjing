@@ -53,7 +53,7 @@ public class ActivityZdgl extends MyBaseActivity{
         cx = (LinearLayout) findViewById(R.id.cx);
         mTabTitles[0] = "国家标准";
         mTabTitles[1] = "行业标准";
-        mTabTitles[2] = "中国石化企业标准";
+        mTabTitles[2] = "企业标准";
 
         tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
         //设置tablayout距离上下左右的距离
