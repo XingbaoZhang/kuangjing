@@ -25,7 +25,7 @@ import java.util.List;
  *
  * @description 适配器类，就是listview最常见的适配器写法
  */
-public class NodeTreeAdapter extends BaseAdapter {
+public class DanweiAdapter extends BaseAdapter {
 
     //大家经常用ArrayList，但是这里为什么要使用LinkedList
     // ，后面大家会发现因为这个list会随着用户展开、收缩某一项而频繁的进行增加、删除元素操作，
@@ -36,7 +36,7 @@ public class NodeTreeAdapter extends BaseAdapter {
     private int retract;//缩进值
     private Context context;
 
-    public NodeTreeAdapter(Context context, ListView listView, LinkedList<Node> linkedList){
+    public DanweiAdapter(Context context, ListView listView, LinkedList<Node> linkedList){
         inflater = LayoutInflater.from(context);
         this.context = context;
         nodeLinkedList = linkedList;
@@ -124,7 +124,7 @@ public class NodeTreeAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         final ViewHolder holder;
         if (convertView == null){
-            convertView = inflater.inflate(R.layout.tree_listview_item,null);
+            convertView = inflater.inflate(R.layout.tree_list_white,null);
             holder = new ViewHolder();
             holder.imageView = (ImageView)convertView.findViewById(R.id.id_treenode_icon);
             holder.label = (TextView)convertView.findViewById(R.id.id_treenode_label);

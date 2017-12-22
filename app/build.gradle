@@ -24,9 +24,9 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
+    compile 'org.litepal.android:core:1.5.1'
+    compile 'com.github.barteksc:android-pdf-viewer:3.0.0-beta.4'
     compile 'cn.pedant.sweetalert:library:1.3'
-    compile 'com.liulishuo.filedownloader:library:1.3.0'
-    compile 'com.loopj.android:android-async-http:1.4.9'
     compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.3'
     compile 'com.alibaba:fastjson:1.1.67.android'
     compile 'com.android.support:appcompat-v7:26.+'

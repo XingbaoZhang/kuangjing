@@ -115,7 +115,7 @@
             android:orientation="horizontal">
 
             <CheckBox
-                android:id="@+id/zhmm"
+                android:id="@+id/jzmm"
                 android:textSize="10sp"
                 android:layout_marginLeft="50dp"
                 android:textColor="@color/text_gray"

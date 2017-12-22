@@ -3,9 +3,9 @@
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-<!--<ListView
+<com.kj.view.XListView
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:id="@+id/listView"></ListView>-->
-<include layout="@layout/bz_item"></include>
+    android:id="@+id/listView"></com.kj.view.XListView>
+
 </android.support.constraint.ConstraintLayout>
