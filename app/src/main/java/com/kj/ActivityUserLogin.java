@@ -67,6 +67,7 @@ public class ActivityUserLogin extends MyBaseActivity{
                     @Override
                     public void onSuccess(String content) {
                         super.onSuccess(content);
+                        System.out.println(content);
                         RetMsg ret= JSON.parseObject(content,RetMsg.class);
                         User u=JSON.parseObject(ret.getData(),User.class);
                         MyApplication.getApp().setU(u);

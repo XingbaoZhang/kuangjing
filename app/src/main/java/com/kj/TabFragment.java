@@ -54,7 +54,7 @@ public class TabFragment extends Fragment {
     List<Bz> list;
     private int pageNum1 = 1;// 无关键字页数
     private int pageSize = 10;
-    private String type = "";
+    private String type = "ckxq";
     Xiazai x;
 
     public static Fragment newInstance(String classid) {
@@ -147,7 +147,7 @@ public class TabFragment extends Fragment {
                                 @Override
                                 public void onClick(View v) {
                                     type = "ckxq";
-                                        FileDownloader.start(Url.urls() + item.getAffixname());
+                                        FileDownloader.start("http://139.224.24.245:7878/AQ.pdf");
                                 }
                             });
                             xz.setOnClickListener(new View.OnClickListener() {
@@ -168,7 +168,6 @@ public class TabFragment extends Fragment {
                 } else {
                     MyToastUtil.ShowToast(getActivity(), "获取错误");
                 }
-
             }
         });
     }

@@ -8,7 +8,7 @@ public class HttpUrl {
 	//修改用户
 	public static  final  String UserEdit="phone/puser/sysPhone/phonesave/";
 	//上传头像
-	public static final String UploadHead="phone/puser/sysPhone/uploadHeadPhoto/";
+	public static final String UploadHead="phone/puser/sysPhone/uploadHeadPhoto";
 	//修改密码
 	public static  final String PassWordEdit="phone/puser/sysPhone/updatepwd/";
 	//获取用户信息
