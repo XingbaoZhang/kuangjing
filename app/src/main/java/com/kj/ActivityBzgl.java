@@ -9,7 +9,18 @@ import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import com.alibaba.fastjson.JSON;
 import com.kj.base.MyBaseActivity;
+import com.kj.pojo.Bz;
+import com.kj.pojo.RetMsg;
+import com.kj.util.HttpUrl;
+import com.kj.util.MyApplication;
+import com.kj.util.UserClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Administrator on 2017/12/14 0014.
@@ -21,10 +32,12 @@ public class ActivityBzgl extends MyBaseActivity {
 
     private ViewPager viewPager;
 
-    private Fragment[] mFragmentArrays = new Fragment[3];
+    private Fragment[] mFragmentArrays ;
 
-    private String[] mTabTitles = new String[3];
+    private String[] mTabTitles;
     LinearLayout cx;//查询
+    List<Bz> list;
+
 
     @Override
     protected void initUI() {
@@ -52,21 +65,7 @@ public class ActivityBzgl extends MyBaseActivity {
 
     private void initView() {
         cx = (LinearLayout) findViewById(R.id.cx);
-        mTabTitles[0] = "国家标准";
-        mTabTitles[1] = "行业标准";
-        mTabTitles[2] = "企业标准";
-
-        tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
-        //设置tablayout距离上下左右的距离
-        //tab_title.setPadding(20,20,20,20);
-        mFragmentArrays[0] = TabFragment.newInstance();
-        mFragmentArrays[1] = TabFragment.newInstance();
-        mFragmentArrays[2] = TabFragment.newInstance();
-
-        PagerAdapter pagerAdapter = new MyViewPagerAdapter(getSupportFragmentManager());
-        viewPager.setAdapter(pagerAdapter);
-        //将ViewPager和TabLayout绑定
-        tabLayout.setupWithViewPager(viewPager);
+        getbzfl();
     }
 
     final class MyViewPagerAdapter extends FragmentPagerAdapter {
@@ -90,5 +89,38 @@ public class ActivityBzgl extends MyBaseActivity {
             return mTabTitles[position];
 
         }
+    }
+
+    public void getbzfl(){
+        RequestParams ps=new RequestParams();
+        UserClient.get(HttpUrl.GetBzFl+";JSESSIONID="+ MyApplication.getApp().getU().getSessionid(),ps,new AsyncHttpResponseHandler(){
+            @Override
+            public void onSuccess(String content) {
+                super.onSuccess(content);
+                System.out.println(content);
+                RetMsg ret= JSON.parseObject(content,RetMsg.class);
+               List<Bz> dlist=JSON.parseArray(ret.getData(),Bz.class);
+               list=new ArrayList<Bz>() ;
+               for(int i=0;i<dlist.size();i++){
+                if(dlist.get(i).getIsdown().equals("0"))
+                    list.add(dlist.get(i));
+               }
+                mTabTitles = new String[list.size()];
+                for(int i=0;i<list.size();i++){
+                    mTabTitles[i] = list.get(i).getClassName();
+                }
+                tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
+                //设置tablayout距离上下左右的距离
+                //tab_title.setPadding(20,20,20,20);
+                mFragmentArrays = new Fragment[list.size()];
+                for(int i=0;i<list.size();i++){
+                    mFragmentArrays[i] = TabFragment.newInstance(list.get(i).getId());
+                }
+                PagerAdapter pagerAdapter = new MyViewPagerAdapter(getSupportFragmentManager());
+                viewPager.setAdapter(pagerAdapter);
+                //将ViewPager和TabLayout绑定
+                tabLayout.setupWithViewPager(viewPager);
+            }
+        });
     }
 }

@@ -41,7 +41,7 @@ public class MainActivity extends MyBaseActivity {
         zdgl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openActivity(ActivityBzgl.class);
+                openActivity(ActivityZdgl.class);
             }
         });
         grzx.setOnClickListener(new View.OnClickListener() {

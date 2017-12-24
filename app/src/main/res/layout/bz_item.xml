@@ -114,6 +114,7 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:gravity="center"
+            android:id="@+id/ckxq"
             android:layout_height="match_parent"
             android:orientation="horizontal">
             <ImageView
@@ -124,10 +125,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="查看详情"
+
                 android:textColor="@color/text_gray"
                 android:layout_marginLeft="5dp"/>
         </LinearLayout>
         <LinearLayout
+            android:id="@+id/xz"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:gravity="center"
