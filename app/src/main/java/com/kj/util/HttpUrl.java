@@ -10,7 +10,7 @@ public class HttpUrl {
 	//上传头像
 	public static final String UploadHead="phone/puser/sysPhone/uploadHeadPhoto";
 	//修改密码
-	public static  final String PassWordEdit="phone/puser/sysPhone/updatepwd/";
+	public static  final String PassWordEdit="phone/puser/sysPhone/updatepwd";
 	//获取用户信息
 	public static final String GetUserInfo="phone/puser/sysPhone/getuserinfo/";
 	//获取标准列表
@@ -30,13 +30,15 @@ public class HttpUrl {
 	//增加制度下载次数
 	public static final String AddZdXzcs="phone/puser/sysPhone/downsystem/";
 	//获取手册的内容
-	public static final String GeScDes="phone/puser/sysPhone/getbookinfo/";
+	public static final String GetScDes="phone/puser/sysPhone/getbookinfo/";
 	//3.2.9.下载手册，下载次数+1
 	public static final String AddScXzcs="phone/puser/sysPhone/downbook/";
 	//获取单位
 	public static final String GetDanWei="phone/puser/sysPhone/treeData";
 	//获取手册目录tree
-	public static final String GetScTree="phone/puser/sysPhone/catalogData/";
+	public static final String GetScTree="phone/puser/sysPhone/catalogData";
 	//帐号退出
 	public static final String Logout="logoutMobile/";
+	//搜搜
+	public static final String Sousuo="phone/puser/sysPhone/wdlist";
 }

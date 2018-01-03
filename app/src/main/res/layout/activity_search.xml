@@ -34,7 +34,7 @@
             </LinearLayout>
 
             <com.kj.view.ClearEditText
-                android:id="@+id/yhm"
+                android:id="@+id/key"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="10dp"
@@ -56,107 +56,13 @@
         android:background="#ffffff"
         android:gravity="center_vertical"
         android:paddingLeft="15dp"
-        android:text="找到993条结果"
         android:textColor="#333333"
         android:textSize="13sp" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="55dp"
-        android:background="#ffffff"
-        android:orientation="horizontal">
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="3"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="2"
-                android:gravity="center_vertical"
-                android:paddingLeft="15dp"
-                android:text="钻井液用高分子聚合物包被絮凝剂技术要求"
-                android:textColor="@color/text_dark"
-                android:textSize="13sp" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:gravity="center_vertical"
-                android:paddingLeft="15dp"
-                android:text="2017年5月15日 14:36:33"
-                android:textColor="@color/text_gray"
-                android:textSize="10sp" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="top|center_horizontal"
-            android:orientation="vertical">
-
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_height="32dp"
-
-                android:src="@mipmap/bz" />
-        </LinearLayout>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="55dp"
-        android:background="#ffffff"
-        android:layout_marginTop="5dp"
-        android:orientation="horizontal">
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="3"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="2"
-                android:gravity="center_vertical"
-                android:paddingLeft="15dp"
-                android:text="钻井液用高分子聚合物包被絮凝剂技术要求"
-                android:textColor="@color/text_dark"
-                android:textSize="13sp" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:gravity="center_vertical"
-                android:paddingLeft="15dp"
-                android:text="2017年5月15日 14:36:33"
-                android:textColor="@color/text_gray"
-                android:textSize="10sp" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="top|center_horizontal"
-            android:orientation="vertical">
-
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_height="32dp"
-
-                android:src="@mipmap/sc" />
-        </LinearLayout>
-    </LinearLayout>
+<com.kj.view.XListView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/listView"></com.kj.view.XListView>
 
 </LinearLayout>
 

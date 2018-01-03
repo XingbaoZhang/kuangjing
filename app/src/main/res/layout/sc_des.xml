@@ -35,7 +35,8 @@
             android:layout_height="match_parent"
             android:layout_weight="3"
             android:gravity="center"
-            android:textColor="#ffffff"
+            android:text="手册管理"
+            android:textColor="#333333"
             android:textSize="16sp" />
 
         <LinearLayout
@@ -46,6 +47,7 @@
             android:gravity="center">
 
             <ImageView
+                android:id="@+id/xiazai"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:src="@mipmap/xz2" />
@@ -61,10 +63,10 @@
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:text="钻井工程监督手册"
             android:textSize="18sp" />
 
         <LinearLayout
@@ -82,11 +84,11 @@
                 android:src="@mipmap/shangchuan" />
 
             <TextView
+                android:id="@+id/time"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="8dp"
                 android:gravity="center"
-                android:text="2017-08-12"
                 android:textSize="10sp" />
 
             <ImageView
@@ -101,7 +103,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginLeft="5dp"
                 android:gravity="center"
-                android:text="523人"
+                android:id="@+id/xzcs"
                 android:textSize="10sp" />
 
             <ImageView
@@ -116,7 +118,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginLeft="5dp"
                 android:gravity="center"
-                android:text="33页"
+                android:id="@+id/yeshu"
                 android:textSize="10sp" />
         </LinearLayout>
     </LinearLayout>
@@ -135,14 +137,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical">
-        <TextView
+        <WebView
             android:layout_width="match_parent"
             android:layout_height="1000dp"
-            android:background="#ffffff"
-            android:gravity="center_horizontal"
-            android:text="手册内容手册内容手册内容手册内容手册内容手册内容手册内容手册内容手册内容"
-            android:textColor="@color/text_dark2"
-            android:textSize="16sp" />
+            android:id="@+id/webview"
+          />
     </LinearLayout>
 </ScrollView>
 

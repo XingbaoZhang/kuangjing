@@ -4,11 +4,10 @@
      定义数据库的名称,默认情况下需要添加后缀.db,如果没有添加litepal内部将会自动添加该后缀
     -->
     <dbname value="xz" />
-
     <!--
      定义数据库的版本,每次你想升级数据库的时候在此处进行版本号定义.通常当你修改了下面mapping中的model类后需要升级,版本号加一
     -->
-    <version value="1" />
+    <version value="2" />
 
     <!--
      定义模型类(如同javabean)在mapping标签中,litepal将会为每个类创建一个表,表中的列将是类中声明为private的成员.例如:

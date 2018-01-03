@@ -3,12 +3,22 @@ package com.kj.util;
 import android.app.Application;
 import android.os.Environment;
 
+import com.kj.R;
 import com.kj.pojo.User;
+import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiscCache;
+import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
+import com.nostra13.universalimageloader.utils.StorageUtils;
 
-import java.io.File;
+import org.litepal.LitePal;
 import org.wlf.filedownloader.FileDownloadConfiguration;
 import org.wlf.filedownloader.FileDownloadConfiguration.Builder;
 import org.wlf.filedownloader.FileDownloader;
+
+import java.io.File;
 
 public class MyApplication extends Application {
 
@@ -34,6 +44,7 @@ public class MyApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        LitePal.initialize(this);
         // 1、创建Builder
         Builder builder = new FileDownloadConfiguration.Builder(this);
 
@@ -56,7 +67,22 @@ public class MyApplication extends Application {
         FileDownloadConfiguration configuration = builder.build();
         FileDownloader.init(configuration);
         //实例化数据库
-
+        @SuppressWarnings("deprecation")
+        DisplayImageOptions options = new DisplayImageOptions.Builder()
+                .showStubImage(R.mipmap.ic_empty)
+                .showImageForEmptyUri(R.mipmap.ic_empty)
+                .showImageOnFail(R.mipmap.ic_error).cacheInMemory(true)
+                .cacheOnDisc(true).build();
+        File cacheDir = StorageUtils.getOwnCacheDirectory(this,
+                "imageloader/Cache");
+        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
+                getApplicationContext()).defaultDisplayImageOptions(options)
+                .threadPriority(Thread.NORM_PRIORITY - 2)
+                .denyCacheImageMultipleSizesInMemory()
+                .discCache(new UnlimitedDiscCache(cacheDir))
+                .discCacheFileNameGenerator(new Md5FileNameGenerator())
+                .tasksProcessingOrder(QueueProcessingType.LIFO).build();
+        ImageLoader.getInstance().init(config);
         ///////////////////////////////////////环信聊天/////////////////////////////////////
      /*   EMOptions options = new EMOptions();
 // 默认添加好友时，是不需要验证的，改成需要验证

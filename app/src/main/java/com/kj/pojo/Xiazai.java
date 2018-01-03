@@ -11,6 +11,25 @@ public class Xiazai extends DataSupport {
     private String name;
     private String time;
     private String url;
+    private String xid;
+    private String msg;
+
+    public String getXid() {
+        return xid;
+    }
+
+    public void setXid(String xid) {
+        this.xid = xid;
+    }
+
+    public String getMsg() {
+        return msg;
+    }
+
+    public void setMsg(String msg) {
+        this.msg = msg;
+    }
+
     private int id;
 
     public Xiazai() {

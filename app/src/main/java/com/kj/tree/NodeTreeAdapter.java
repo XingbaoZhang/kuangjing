@@ -146,7 +146,7 @@ public class NodeTreeAdapter extends BaseAdapter {
         return convertView;
     }
 
-    static class ViewHolder{
+    public static class ViewHolder{
         public ImageView imageView;
         public TextView label;
         public LinearLayout confirm;

@@ -50,18 +50,20 @@
             </LinearLayout>
         </LinearLayout>
 
-        <ImageView
-            android:layout_width="98dp"
-            android:layout_height="90dp"
+        <de.hdodenhof.circleimageview.CircleImageView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/head"
+            android:layout_width="96dp"
+            android:layout_height="96dp"
             android:layout_gravity="center"
-            android:scaleType="fitXY"
-            android:src="@mipmap/grzx" />
+            app:civ_border_width="2dp"
+            app:civ_border_color="#FF000000"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:gravity="center"
-            android:text="小 明"
+            android:id="@+id/pusername"
             android:textColor="#ffffff"
             android:textSize="16sp"
             android:textStyle="bold" />
@@ -89,7 +91,6 @@
             android:layout_height="match_parent"
             android:layout_weight="2"
             android:gravity="center_vertical"
-            android:text="ddddddd"
             android:textColor="@color/text_dark2"
             android:textSize="13sp" />
     </LinearLayout>
@@ -110,12 +111,11 @@
             android:textSize="13sp" />
 
         <TextView
-            android:id="@+id/zxxm"
+            android:id="@+id/zsxm"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="2"
             android:gravity="center_vertical"
-            android:text="ddddddd"
             android:textColor="@color/text_dark2"
             android:textSize="13sp" />
     </LinearLayout>
@@ -141,7 +141,6 @@
             android:layout_height="match_parent"
             android:layout_weight="2"
             android:gravity="center_vertical"
-            android:text="1587898569"
             android:textColor="@color/text_dark2"
             android:textSize="13sp" />
     </LinearLayout>
@@ -174,7 +173,6 @@
                 android:layout_height="match_parent"
                 android:layout_weight="2"
                 android:gravity="center_vertical"
-                android:text="ddddddd"
                 android:textColor="@color/text_dark2"
                 android:textSize="13sp" />
         </LinearLayout>

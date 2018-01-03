@@ -130,5 +130,6 @@
         android:layout_marginLeft="40dp"
         android:layout_marginRight="40dp"
         android:text="保存密码 "
+        android:id="@+id/bcmm"
         android:textColor="#ffffff"></Button>
 </LinearLayout>

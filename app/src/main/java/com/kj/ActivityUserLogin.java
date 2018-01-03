@@ -13,6 +13,7 @@ import com.kj.pojo.User;
 import com.kj.util.HttpUrl;
 import com.kj.util.MyApplication;
 import com.kj.util.MyToastUtil;
+import com.kj.util.NetWorkUtils;
 import com.kj.util.SharedPreferencesUtils;
 import com.kj.util.StringUtils;
 import com.kj.util.UserClient;
@@ -58,6 +59,15 @@ public class ActivityUserLogin extends MyBaseActivity{
             else if(StringUtils.isEmpty(pass.getText().toString()))
                 MyToastUtil.ShowToast(con,"密码不能为空");
             else{
+                if(!NetWorkUtils.isNetworkConnected(con)){
+                    if(SharedPreferencesUtils.getParam(con,"username","").toString().equals(username.getText().toString())&&SharedPreferencesUtils.getParam(con,"password","").toString().equals(pass.getText().toString())){
+                        openActivity(MainActivity.class);
+                        finish();
+                    }else{
+                        MyToastUtil.ShowToast(con,"登录失败");
+                    }
+                }else{
+
                 RequestParams ps=new RequestParams();
                 ps.add("username",username.getText().toString());
                 ps.add("password",pass.getText().toString());
@@ -69,20 +79,27 @@ public class ActivityUserLogin extends MyBaseActivity{
                         super.onSuccess(content);
                         System.out.println(content);
                         RetMsg ret= JSON.parseObject(content,RetMsg.class);
-                        User u=JSON.parseObject(ret.getData(),User.class);
-                        MyApplication.getApp().setU(u);
-                        MyToastUtil.ShowToast(con,"登录成功");
-                        if(jzmm.isChecked()){
-                            SharedPreferencesUtils.setParam(con,"username",username.getText().toString());
-                            SharedPreferencesUtils.setParam(con,"pass",pass.getText().toString());
+                        if(ret.getCode().equals("0")) {
+                            User u = JSON.parseObject(ret.getData(), User.class);
+                            MyApplication.getApp().setU(u);
+                            MyToastUtil.ShowToast(con, "登录成功");
+                            if (jzmm.isChecked()) {
+                                SharedPreferencesUtils.setParam(con, "username", username.getText().toString());
+                                SharedPreferencesUtils.setParam(con, "pass", pass.getText().toString());
+                            }
+                            openActivity(MainActivity.class);
+                            finish();
+                        }else{
+                            MyToastUtil.ShowToast(con, "登录失败");
                         }
-                        openActivity(MainActivity.class);
-                        finish();
                     }
                 });
             }
+
+            }
             }
         });
+
         regist.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

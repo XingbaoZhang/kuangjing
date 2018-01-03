@@ -17,12 +17,21 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
 import com.kj.base.MyBaseActivity;
+import com.kj.pojo.RetMsg;
+import com.kj.pojo.User;
+import com.kj.pojo.Xiazai;
 import com.kj.util.HttpUrl;
 import com.kj.util.MyApplication;
+import com.kj.util.NetWorkUtils;
+import com.kj.util.Url;
 import com.kj.util.UserClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
+import com.nostra13.universalimageloader.core.ImageLoader;
+
+import org.litepal.crud.DataSupport;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -44,23 +53,79 @@ public class ActivityGrzx extends MyBaseActivity {
     TextView tc,qkhc;
     Context con=ActivityGrzx.this;
     String names="";
+    TextView name;
+    TextView zdxz,bzxz,scxz;
+    LinearLayout zdgl_a,bzgl_a,scgl_a;
     @Override
     protected void initUI() {
         setContentView(R.layout.activity_grzx);
+        zdgl_a=(LinearLayout)findViewById(R.id.zdgl_a);
+        zdgl_a.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(con,ActivityXzzx.class).putExtra("type","制度"));
+            }
+        });
+        bzgl_a=(LinearLayout)findViewById(R.id.bzgl_a);
+        bzgl_a.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(con,ActivityXzzx.class).putExtra("type","标准"));
+            }
+        });
+        scgl_a=(LinearLayout)findViewById(R.id.scgl_a);
+        scgl_a.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(con,ActivityXzzx.class).putExtra("type","手册"));
+            }
+        });
+
+        zdxz=(TextView)findViewById(R.id.zdxz);
+        bzxz=(TextView)findViewById(R.id.bzxz);
+        scxz=(TextView)findViewById(R.id.scxz);
+        zdxz.setText("已下载"+ DataSupport.where("type='制度'").find(Xiazai.class).size());
+        bzxz.setText("已下载"+ DataSupport.where("type='标准'").find(Xiazai.class).size());
+        scxz.setText("已下载"+ DataSupport.where("type='手册'").find(Xiazai.class).size());
         grxx = (ImageView) findViewById(R.id.grxx);
         xgmm=(LinearLayout)findViewById(R.id.xgmm);
         xzzx=(LinearLayout)findViewById(R.id.xzzx);
         tc=(TextView)findViewById(R.id.tc);
         qkhc=(TextView)findViewById(R.id.qkhc);
+        name=(TextView)findViewById(R.id.name);
+        if (NetWorkUtils.isNetworkConnected(con) && MyApplication.getApp().getU() != null) {
+            getuser();
+        }
     }
 
     @Override
     protected void initData() {
 
     }
+    public void getuser() {
+        RequestParams ps = new RequestParams();
+        ps.add("id", MyApplication.getApp().getU().getId());
+        UserClient.get(HttpUrl.GetUserInfo + ";JSESSIONID=" + MyApplication.getApp().getU().getSessionid(), ps, new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(String content) {
+                super.onSuccess(content);
+                System.out.println(content);
+                RetMsg ret = JSON.parseObject(content, RetMsg.class);
+                User u = JSON.parseObject(ret.getData(), User.class);
+                name.setText(u.getPusername());
 
+                ImageLoader.getInstance().displayImage(Url.urlss() + u.getHeadphoto(), grxx);
+            }
+        });
+    }
     @Override
     protected void initListener() {
+        name.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openActivity(ActivityGrxx.class);
+            }
+        });
         tc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

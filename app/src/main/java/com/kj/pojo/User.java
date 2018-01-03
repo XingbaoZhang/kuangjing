@@ -12,6 +12,56 @@ public class User {
     private String mobileLogin;
     private String sessionid;
 
+    public String getTelphone() {
+        return telphone;
+    }
+
+    public void setTelphone(String telphone) {
+        this.telphone = telphone;
+    }
+
+    private String ploginname,pusername,depid,depname,headphoto,telphone;
+
+    public String getPloginname() {
+        return ploginname;
+    }
+
+    public void setPloginname(String ploginname) {
+        this.ploginname = ploginname;
+    }
+
+    public String getPusername() {
+        return pusername;
+    }
+
+    public void setPusername(String pusername) {
+        this.pusername = pusername;
+    }
+
+    public String getDepid() {
+        return depid;
+    }
+
+    public void setDepid(String depid) {
+        this.depid = depid;
+    }
+
+    public String getDepname() {
+        return depname;
+    }
+
+    public void setDepname(String depname) {
+        this.depname = depname;
+    }
+
+    public String getHeadphoto() {
+        return headphoto;
+    }
+
+    public void setHeadphoto(String headphoto) {
+        this.headphoto = headphoto;
+    }
+
     public User() {
     }
 
