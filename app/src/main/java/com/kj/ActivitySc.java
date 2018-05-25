@@ -2,7 +2,6 @@ package com.kj;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Environment;
 import android.support.annotation.RequiresApi;
@@ -223,17 +222,35 @@ public class ActivitySc extends MyBaseActivity {
                         xzcs.setText("");
                         yeshu.setText("");
                         isdown = j.getString("isdown");
+                        webView.getSettings().setJavaScriptEnabled(true);
                         webView.setWebViewClient(new WebViewClient(){
                             @Override
                             public boolean shouldOverrideUrlLoading
                                     (WebView view, String url) {
                                 Log.i("用户单击超连接", url);
                                 FileDownloader.start(Url.urls() + url);
-                                return super.shouldOverrideUrlLoading(view, url);
+                                return true;
+                            }
+
+                            @Override
+                            public void onPageFinished(WebView view, String url) {
+                                view.getSettings().setJavaScriptEnabled(true);
+                                Log.i("rrrrrrr","的点点滴滴多多多"+url);
+                                super.onPageFinished(view, url);
+
+
+                            }
+                            @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+                            @Override
+                            public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+                                Log.i("用户单击超连接1", request.getUrl().toString());
+                                FileDownloader.start(Url.urls() + request.getUrl().toString());
+                                return true;
                             }
                         });
                         content=j.getString("content");
-                        webView.loadDataWithBaseURL(null, j.getString("content"), "text/html", "utf-8", null);
+                        webView.getSettings().setDefaultTextEncodingName("UTF -8");//设置默认为utf-8
+                        webView.loadData(j.getString("content"), "text/html;charset=UTF-8", null);
                         pre.setVisibility(View.VISIBLE);
                         next.setVisibility(View.VISIBLE);
                         pre.setOnClickListener(new View.OnClickListener() {
