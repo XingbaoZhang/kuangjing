@@ -229,14 +229,11 @@ public class ActivitySc extends MyBaseActivity {
                                     (WebView view, String url) {
                                 Log.i("用户单击超连接", url);
                                 FileDownloader.start(Url.urls() + url);
-
                                 return super.shouldOverrideUrlLoading(view, url);
                             }
                         });
                         content=j.getString("content");
                         webView.loadDataWithBaseURL(null, j.getString("content"), "text/html", "utf-8", null);
-
-
                         pre.setVisibility(View.VISIBLE);
                         next.setVisibility(View.VISIBLE);
                         pre.setOnClickListener(new View.OnClickListener() {
