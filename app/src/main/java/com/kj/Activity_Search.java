@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -47,6 +48,7 @@ public class Activity_Search extends MyBaseActivity {
     private int pageNum1 = 1;// 无关键字页数
     private int pageSize = 10;
     Context con = Activity_Search.this;
+    TextView shumu;
 
     @Override
     protected void onDestroy() {
@@ -57,6 +59,7 @@ public class Activity_Search extends MyBaseActivity {
     @Override
     protected void initUI() {
         setContentView(R.layout.activity_search);
+        shumu=(TextView)findViewById(R.id.shumu);
         FileDownloader
                 .registerDownloadStatusListener(mOnFileDownloadStatusListener);
         listView = (XListView) findViewById(R.id.listView);
@@ -99,7 +102,7 @@ public class Activity_Search extends MyBaseActivity {
                 }
                 if (list.get(position - 1).getWdtype().equals("2")) {
                     RequestParams ps = new RequestParams();
-                    ps.add("id", list.get(position).getId());
+                    ps.add("id", list.get(position-1).getId());
                     UserClient.get(HttpUrl.GetScDes + ";JSESSIONID=" + MyApplication.getApp().getU().getSessionid(), ps, new AsyncHttpResponseHandler() {
                         @Override
                         public void onSuccess(String content) {
@@ -264,10 +267,14 @@ public class Activity_Search extends MyBaseActivity {
                     JSONObject j = JSON.parseObject(ret.getData());
                     List<sousuo> ll = JSON.parseArray(
                             j.getString("list"), sousuo.class);
-                    for (int i = 0; i < ll.size(); i++) {
-                        list.add(ll.get(i));
+                    if(ll==null||ll.size()==0)
+                        MyToastUtil.ShowToast(con,"没有更多了");
+                    else {
+                        for (int i = 0; i < ll.size(); i++) {
+                            list.add(ll.get(i));
+                        }
                     }
-
+                    shumu.setText("找到"+j.getString("count")+"条相关结果");
                     listView.stopRefresh();
                     listView.stopLoadMore();
                     listView.setRefreshTime("刚刚");
@@ -298,7 +305,10 @@ public class Activity_Search extends MyBaseActivity {
                                 icon.setImageResource(R.mipmap.sc);
                         }
                     });
+                    if(ll!=null)
                     listView.setSelection(list.size() - ll.size());
+                    else
+                        listView.setSelection(list.size());
                 } else {
                     MyToastUtil.ShowToast(con, "获取错误");
                 }

@@ -25,6 +25,7 @@ import com.kj.pojo.Xiazai;
 import com.kj.util.HttpUrl;
 import com.kj.util.MyApplication;
 import com.kj.util.NetWorkUtils;
+import com.kj.util.SharedPreferencesUtils;
 import com.kj.util.Url;
 import com.kj.util.UserClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -137,6 +138,8 @@ public class ActivityGrzx extends MyBaseActivity {
                             @Override
                             public void onClick(SweetAlertDialog sweetAlertDialog) {
                                 sweetAlertDialog.dismiss();
+                                SharedPreferencesUtils.setParam(con, "username","");
+                                SharedPreferencesUtils.setParam(con, "pass","");
                                 finishAll();
                             }
                         })

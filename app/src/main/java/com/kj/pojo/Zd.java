@@ -6,7 +6,15 @@ package com.kj.pojo;
 
 public class Zd {
     private String id,className;
-    private String sysName,classid,affixaddress,publicdate,downtime;
+    private String sysName,classid,affixaddress,publicdate,downtime,sysNum;
+
+    public String getSysNum() {
+        return sysNum;
+    }
+
+    public void setSysNum(String sysNum) {
+        this.sysNum = sysNum;
+    }
 
     public Zd() {
     }

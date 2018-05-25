@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.LinearLayout;
 
 import com.alibaba.fastjson.JSON;
@@ -45,11 +46,13 @@ public class TabFragment extends Fragment {
     private String type = "ckxq";
     int cont = 0;
     Xiazai x;
+    String is = "";
 
-    public static Fragment newInstance(String classid) {
+    public static Fragment newInstance(String classid, String isdown) {
         TabFragment fragment = new TabFragment();
         Bundle args = new Bundle();
         args.putString("key", classid);
+        args.putString("isdown", isdown);
         fragment.setArguments(args);
 
 
@@ -62,8 +65,9 @@ public class TabFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.common_list, container, false);
 
         listView = (XListView) rootView.findViewById(R.id.listView);
-        listView.setPullLoadEnable(false);
+        listView.setPullLoadEnable(true);
         listView.setPullRefreshEnable(true);
+        pageNum1=1;
         getlist();
         return rootView;
     }
@@ -104,7 +108,7 @@ public class TabFragment extends Fragment {
                 if (ret.getCode().equals("0")) {
                     if (pageNum1 == 1)
                         list = new ArrayList<Bz>();
-                    JSONObject j = JSON.parseObject(ret.getData());
+                    final JSONObject j = JSON.parseObject(ret.getData());
                     List<Bz> ll = JSON.parseArray(
                             j.getString("list"), Bz.class);
                     for (int i = 0; i < ll.size(); i++) {
@@ -124,42 +128,72 @@ public class TabFragment extends Fragment {
                         @Override
                         public void onLoadMore() {
                             pageNum1 = pageNum1 + 1;
-                            getlist();
+                            if (Integer.parseInt(j.getString("count")) > pageNum1 * 10)
+                                getlist();
+                            else
+                                listView.stopLoadMore();
                         }
                     });
-                    listView.setAdapter(new CommonAdapter<Bz>(getActivity(), list, R.layout.bz_item) {
+                    listView.setAdapter(new CommonAdapter<Bz>(getActivity(), list, R.layout.new_bz_item) {
                         @Override
                         public void convert(ViewHolder helper, final Bz item) {
-                            helper.setText(R.id.bzbh, item.getStandNum());
-                            helper.setText(R.id.bzmc, item.getStandName());
-                            helper.setText(R.id.fbsj, item.getPublicdate());
-                            helper.setText(R.id.xzcs, item.getDowntime());
-                            LinearLayout ckxq = (LinearLayout) helper.getView(R.id.ckxq);
-                            LinearLayout xz = (LinearLayout) helper.getView(R.id.xz);
-                            ckxq.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    type = "ckxq";
-                                    SharedPreferencesUtils.setParam(getActivity(),"xztype","ckxq");
-                                    FileDownloader.start(Url.urls() + item.getAffixname());
-                                }
-                            });
-                            xz.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    type = "xz";
-                                    ActivityBzgl.x = new Xiazai();
-                                    ActivityBzgl.x.setName(item.getStandName());
-                                    ActivityBzgl.x.setTime(TimeUtil.getTime());
-                                    ActivityBzgl.x.setType("标准");
-                                    ActivityBzgl.x.setXid(item.getId());
-                                    SharedPreferencesUtils.setParam(getActivity(),"xztype","zx");
-                                    cont=0;
-                                    FileDownloader.start(Url.urls() + item.getAffixname());
+                            helper.setText(R.id.name, item.getStandNum() + "  " + item.getStandName());
+//                            helper.setText(R.id.bzmc, item.getStandName());
+//                            helper.setText(R.id.fbsj, item.getPublicdate());
+//                            helper.setText(R.id.xzcs, item.getDowntime());
+//                            LinearLayout ckxq = (LinearLayout) helper.getView(R.id.ckxq);
+//                            LinearLayout xz = (LinearLayout) helper.getView(R.id.xz);
+//                            ckxq.setOnClickListener(new View.OnClickListener() {
+//                                @Override
+//                                public void onClick(View v) {
+//                                    type = "ckxq";
+//                                    ActivityBzgl.x = new Xiazai();
+//                                    ActivityBzgl.x.setName(item.getStandName());
+//                                    ActivityBzgl.x.setTime(TimeUtil.getTime());
+//                                    ActivityBzgl.x.setType("标准");
+//                                    ActivityBzgl.x.setXid(item.getId());
+//                                    ActivityBzgl.x.setXzzt(getArguments().getString("key"));
+//                                    SharedPreferencesUtils.setParam(getActivity(), "xztype", "ckxq");
+//                                    FileDownloader.start(Url.urls() + item.getAffixname());
+//
+//                                }
+//                            });
+//                            xz.setOnClickListener(new View.OnClickListener() {
+//                                @Override
+//                                public void onClick(View v) {
+//                                    type = "xz";
+//                                    ActivityBzgl.x = new Xiazai();
+//                                    ActivityBzgl.x.setName(item.getStandName());
+//                                    ActivityBzgl.x.setTime(TimeUtil.getTime());
+//                                    ActivityBzgl.x.setType("标准");
+//                                    ActivityBzgl.x.setXid(item.getId());
+//                                    ActivityBzgl.x.setXzzt(getArguments().getString("key"));
+//                                    SharedPreferencesUtils.setParam(getActivity(), "xztype", "zx");
+//
+//                                    cont = 0;
+//                                    if (getArguments().getString("key").equals("0")) {
+//                                        FileDownloader.start(Url.urls() + item.getAffixname());
+//                                    }
+//                                    else
+//                                        MyToastUtil.ShowToast(getActivity(), "没有下载权限");
+//
+//                                }
+//                            });
 
-                                }
-                            });
-
+                        }
+                    });
+                    listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            type = "ckxq";
+                            ActivityBzgl.x = new Xiazai();
+                            ActivityBzgl.x.setName(list.get(position - 1).getStandName());
+                            ActivityBzgl.x.setTime(TimeUtil.getTime());
+                            ActivityBzgl.x.setType("标准");
+                            ActivityBzgl.x.setXid(list.get(position - 1).getId());
+                            ActivityBzgl.x.setXzzt(getArguments().getString("key"));
+                            SharedPreferencesUtils.setParam(getActivity(), "xztype", "ckxq");
+                            FileDownloader.start(Url.urls() + list.get(position - 1).getAffixname());
                         }
                     });
 

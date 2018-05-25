@@ -7,7 +7,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="250dp"
         android:background="@mipmap/grzx_top"
         android:orientation="vertical">
 
@@ -41,8 +41,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="35dp"
-        android:layout_marginTop="8dp"
+        android:layout_height="40dp"
         android:background="#ffffff"
         android:gravity="center_vertical"
         android:orientation="horizontal"
@@ -76,7 +75,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="75dp"
         android:layout_marginTop="0.5dp"
         android:background="#ffffff"
         android:orientation="horizontal"
@@ -100,16 +99,16 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
                     android:src="@mipmap/bzgl" />
 
                 <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
+                    android:layout_height="match_parent"
                     android:gravity="center"
-                    android:text="标准管理"
+                    android:text="标准"
+                    android:layout_marginLeft="4dp"
                     android:textColor="#093870"
                     android:textSize="13sp" />
             </LinearLayout>
@@ -148,16 +147,16 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
                     android:src="@mipmap/scgl" />
 
                 <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
+                    android:layout_height="match_parent"
                     android:gravity="center"
-                    android:text="手册管理"
+                    android:text="手册"
+                    android:layout_marginLeft="4dp"
                     android:textColor="#093870"
                     android:textSize="13sp" />
             </LinearLayout>
@@ -196,16 +195,16 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
                     android:src="@mipmap/zdgl" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginLeft="4dp"
                     android:gravity="center"
-                    android:text="制度管理"
+                    android:text="制度"
                     android:textColor="#093870"
                     android:textSize="13sp" />
             </LinearLayout>
@@ -224,8 +223,8 @@
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_marginTop="8dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="13dp"
         android:id="@+id/xgmm"
         android:background="#ffffff"
         android:orientation="horizontal"
@@ -249,7 +248,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="45dp"
         android:layout_marginTop="1dp"
         android:background="#ffffff"
         android:orientation="horizontal"
@@ -278,13 +277,13 @@
         android:background="@mipmap/bg02">
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="38dp"
+            android:layout_height="45dp"
             android:gravity="center"
             android:text="退 出"
             android:id="@+id/tc"
             android:textStyle="bold"
             android:background="#ffffff"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="50dp"
             android:textColor="#ff0000" />
     </LinearLayout>
 </LinearLayout>

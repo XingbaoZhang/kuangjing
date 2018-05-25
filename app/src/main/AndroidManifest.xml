@@ -170,7 +170,7 @@
     <application
         android:name=".util.MyApplication"
         android:allowBackup="true"
-        android:icon="@mipmap/logo"
+        android:icon="@mipmap/logo_2"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         tools:replace="android:icon"
@@ -225,7 +225,6 @@
         <activity
             android:name=".ActivitySc"
             android:configChanges="orientation|keyboardHidden"
-            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustUnspecified|stateHidden"></activity>
         <activity
             android:name=".ActivityXzzx"
@@ -245,12 +244,10 @@
         <activity
             android:name=".ActivityYulan"
             android:configChanges="orientation|keyboardHidden"
-            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustUnspecified|stateHidden"></activity>
         <activity
             android:name=".ActivityScDes"
             android:configChanges="orientation|keyboardHidden"
-            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustUnspecified|stateHidden"></activity>
     </application>
 

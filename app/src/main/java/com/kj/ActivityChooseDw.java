@@ -66,6 +66,12 @@ public class ActivityChooseDw extends Activity {
 
                 }
             }
+
+            @Override
+            public void onFailure(Throwable error, String content) {
+                super.onFailure(error, content);
+                System.out.println(content);
+            }
         });
     }
 }

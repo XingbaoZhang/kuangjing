@@ -12,10 +12,13 @@ import com.kj.adapter.CommonAdapter;
 import com.kj.adapter.ViewHolder;
 import com.kj.base.MyBaseActivity;
 import com.kj.pojo.Xiazai;
+import com.kj.util.SharedPreferencesUtils;
 
 import org.litepal.crud.DataSupport;
 
 import java.util.List;
+
+import cn.pedant.SweetAlert.SweetAlertDialog;
 
 /**
  * Created by Administrator on 2017-12-15.
@@ -37,12 +40,15 @@ public class ActivityXzzx extends MyBaseActivity {
                     startActivity(new Intent(con, ActivityScDes.class)
                             .putExtra("name", list.get(position).getName())
                             .putExtra("time", list.get(position).getTime())
-                            .putExtra("id",list.get(position).getXid())
+                            .putExtra("id", list.get(position).getXid())
                             .putExtra("msg", list.get(position).getMsg())
                             .putExtra("xzcs", "").putExtra("yeshu", "")
+                            .putExtra("xz", "1")
                             .putExtra("isdown", "0"));
-                } else
-                    startActivity(new Intent(con, ActivityYulan.class).putExtra("url", list.get(position).getUrl()));
+
+                } else {
+                    startActivity(new Intent(con, ActivityYulan.class).putExtra("url", list.get(position).getUrl()).putExtra("lx", "1").putExtra("id", list.get(position).getXid()).putExtra("types", list.get(position).getType()));
+                }
             }
         });
 
@@ -82,8 +88,27 @@ public class ActivityXzzx extends MyBaseActivity {
                 shanchu.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        item.delete();
-                        getdata();
+                        new SweetAlertDialog(con, SweetAlertDialog.ERROR_TYPE)
+                                .setTitleText("确定要删除?")
+                                .setConfirmText("删除")
+                                .setCancelText("取消")
+                                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                    @Override
+                                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                        sweetAlertDialog.dismiss();
+                                        item.delete();
+                                        getdata();
+                                    }
+                                })
+                                .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                    @Override
+                                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                        sweetAlertDialog.dismiss();
+                                    }
+                                })
+                                .show();
+
+
                     }
                 });
 

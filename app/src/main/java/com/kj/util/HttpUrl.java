@@ -41,4 +41,6 @@ public class HttpUrl {
 	public static final String Logout="logoutMobile/";
 	//搜搜
 	public static final String Sousuo="phone/puser/sysPhone/wdlist";
+	//发送邮箱
+	public static final String SendEmail="phone/puser/sysPhone/sendemail";
 }

@@ -2,6 +2,7 @@ package com.kj;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.Environment;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -9,6 +10,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 
@@ -116,20 +118,18 @@ public class ActivityZdgl extends MyBaseActivity {
             @Override
             public void onSuccess(String content) {
                 super.onSuccess(content);
-                System.out.println(content);
+                Log.i("制度：",content);
                 RetMsg ret= JSON.parseObject(content,RetMsg.class);
                 list=JSON.parseArray(ret.getData(),Zd.class);
                 mTabTitles= new String[list.size()];
-                for(int i=0;i<list.size();i++){
+                for(int i=0;i<1;i++){
                     mTabTitles[i] = list.get(i).getClassName();
                 }
                 tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
                 //设置tablayout距离上下左右的距离
                 //tab_title.setPadding(20,20,20,20);
-                mFragmentArrays= new Fragment[list.size()];
-                for(int i=0;i<list.size();i++){
-                    mFragmentArrays[i] = ZdFragment.newInstance(list.get(i).getId());
-                }
+                mFragmentArrays= new Fragment[1];
+                    mFragmentArrays[0] = ZdFragment.newInstance(list.get(0).getId());
                 PagerAdapter pagerAdapter = new MyViewPagerAdapter(getSupportFragmentManager());
                 viewPager.setAdapter(pagerAdapter);
                 //将ViewPager和TabLayout绑定
@@ -177,7 +177,6 @@ public class ActivityZdgl extends MyBaseActivity {
         public void onFileDownloadStatusPaused(DownloadFileInfo downloadFileInfo) {
             // 下载已被暂停
             System.out.println("暂停下载");
-
         }
 
         @Override
@@ -185,15 +184,16 @@ public class ActivityZdgl extends MyBaseActivity {
                 final DownloadFileInfo downloadFileInfo) {
             // 下载完成（整个文件已经全部下载完成）
             // 需要判断文件是否存在
-            System.out.println("完成下载");
             String videopath = Environment.getExternalStorageDirectory()
                     .getAbsolutePath()
                     + File.separator
                     + "FileDownloader/"
                     + downloadFileInfo.getFileName();
-            MyToastUtil.ShowToast(ActivityZdgl.this, "成功");
             if (SharedPreferencesUtils.getParam(ActivityZdgl.this, "xztype", "").toString().equals("ckxq")) {
-                startActivity(new Intent(con, ActivityYulan.class).putExtra("url", videopath));
+                Bundle b=new Bundle();
+                x.setUrl(videopath);
+                b.putSerializable("x",x);
+                startActivity(new Intent(con, ActivityYulan.class).putExtra("url", videopath).putExtras(b));
             } else {
                 x.setUrl(videopath);
                 if(DataSupport.where("xid=?",x.getXid()).find(Xiazai.class).size()==0){

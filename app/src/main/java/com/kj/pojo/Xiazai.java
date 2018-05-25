@@ -2,17 +2,28 @@ package com.kj.pojo;
 
 import org.litepal.crud.DataSupport;
 
+import java.io.Serializable;
+
 /**
  * Created by Administrator on 2017/12/22 0022.
  */
 
-public class Xiazai extends DataSupport {
+public class Xiazai extends DataSupport implements Serializable {
     private String type;
     private String name;
     private String time;
     private String url;
     private String xid;
     private String msg;
+    private String xzzt;
+
+    public String getXzzt() {
+        return xzzt;
+    }
+
+    public void setXzzt(String xzzt) {
+        this.xzzt = xzzt;
+    }
 
     public String getXid() {
         return xid;

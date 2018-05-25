@@ -2,6 +2,7 @@ package com.kj;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.Environment;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -124,7 +125,6 @@ public class ActivityBzgl extends MyBaseActivity {
                 List<Bz> dlist = JSON.parseArray(ret.getData(), Bz.class);
                 list = new ArrayList<Bz>();
                 for (int i = 0; i < dlist.size(); i++) {
-                    if (dlist.get(i).getIsdown().equals("0"))
                         list.add(dlist.get(i));
                 }
                 mTabTitles = new String[list.size()];
@@ -136,7 +136,7 @@ public class ActivityBzgl extends MyBaseActivity {
                 //tab_title.setPadding(20,20,20,20);
                 mFragmentArrays = new Fragment[list.size()];
                 for (int i = 0; i < list.size(); i++) {
-                    mFragmentArrays[i] = TabFragment.newInstance(list.get(i).getId());
+                    mFragmentArrays[i] = TabFragment.newInstance(list.get(i).getId(),list.get(i).getIsdown());
                 }
                 PagerAdapter pagerAdapter = new MyViewPagerAdapter(getSupportFragmentManager());
                 viewPager.setAdapter(pagerAdapter);
@@ -194,15 +194,16 @@ public class ActivityBzgl extends MyBaseActivity {
                 final DownloadFileInfo downloadFileInfo) {
             // 下载完成（整个文件已经全部下载完成）
             // 需要判断文件是否存在
-            System.out.println("完成下载");
             String videopath = Environment.getExternalStorageDirectory()
                     .getAbsolutePath()
                     + File.separator
                     + "FileDownloader/"
                     + downloadFileInfo.getFileName();
-            MyToastUtil.ShowToast(ActivityBzgl.this, "成功");
             if (SharedPreferencesUtils.getParam(ActivityBzgl.this, "xztype", "").toString().equals("ckxq")) {
-                startActivity(new Intent(con, ActivityYulan.class).putExtra("url", videopath));
+                Bundle b=new Bundle();
+                x.setUrl(videopath);
+                b.putSerializable("x",x);
+                startActivity(new Intent(con, ActivityYulan.class).putExtra("url", videopath).putExtras(b));
             } else {
                 x.setUrl(videopath);
                 if(DataSupport.where("xid=?",x.getXid()).find(Xiazai.class).size()==0){

@@ -11,16 +11,16 @@
         android:layout_height="40dp"
         android:background="#093870"
         android:gravity="center"
-        android:text="钻井井控手册"
+        android:text="钻井井控标准整编手册"
         android:textColor="#ffffff"
         android:textSize="16sp" />
 
-    <ImageView
-        android:layout_width="match_parent"
+    <com.kj.view.AdView
+        android:id="@+id/adview"
+        android:layout_width="fill_parent"
         android:layout_height="0dp"
         android:layout_weight="3"
-        android:scaleType="fitXY"
-        android:src="@mipmap/main_top" />
+        android:background="@drawable/sy_banner" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -73,36 +73,6 @@
 
             <LinearLayout
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:id="@+id/bzgl"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:src="@mipmap/bzgl" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:gravity="center"
-                    android:text="标准管理"
-                    android:textColor="#093870"
-                    android:textSize="13sp" />
-            </LinearLayout>
-
-            <View
-                android:layout_width="0.5dp"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="10dp"
-                android:layout_marginTop="10dp"
-                android:background="@color/text_dark"></View>
-
-            <LinearLayout
-                android:layout_width="0dp"
                 android:id="@+id/scgl"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -119,7 +89,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:gravity="center"
-                    android:text="手册管理"
+                    android:text="整编手册"
                     android:textColor="#093870"
                     android:textSize="13sp" />
             </LinearLayout>
@@ -130,6 +100,36 @@
                 android:layout_marginBottom="10dp"
                 android:layout_marginTop="10dp"
                 android:background="@color/text_dark"></View>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:id="@+id/bzgl"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@mipmap/bzgl" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:gravity="center"
+                    android:text="标准"
+                    android:textColor="#093870"
+                    android:textSize="13sp" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="0.5dp"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/text_dark"></View>
+
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -149,7 +149,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:gravity="center"
-                    android:text="制度管理"
+                    android:text="制度"
                     android:textColor="#093870"
                     android:textSize="13sp" />
             </LinearLayout>

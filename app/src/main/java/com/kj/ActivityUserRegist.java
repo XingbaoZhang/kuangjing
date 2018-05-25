@@ -71,8 +71,9 @@ public class ActivityUserRegist extends MyBaseActivity {
                         @Override
                         public void onSuccess(String content) {
                             super.onSuccess(content);
+                            System.out.println(content);
                             RetMsg ret = JSON.parseObject(content, RetMsg.class);
-                            if (ret.getCode().equals("200")) {
+                            if (ret.getCode().equals("0")) {
                                 MyToastUtil.ShowToast(con, "注册成功");
                                 finish();
                             } else {
@@ -82,7 +83,7 @@ public class ActivityUserRegist extends MyBaseActivity {
                     });
 
                 } else {
-                    MyToastUtil.ShowToast(con, "");
+                    MyToastUtil.ShowToast(con, "两次密码输入不一致");
                 }
 
             }

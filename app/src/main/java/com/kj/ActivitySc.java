@@ -2,14 +2,20 @@ package com.kj;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.os.Build;
 import android.os.Environment;
+import android.support.annotation.RequiresApi;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -53,9 +59,12 @@ public class ActivitySc extends MyBaseActivity {
     private SlidingMenu mSm;
     private ListView mListView;
     List<danwei> list;
+    int a=0;
     List<Node> data;
     Context con = ActivitySc.this;
     private NodeTreeAdapter mAdapter;
+
+    String content="";
     private LinkedList<Node> mLinkedList = new LinkedList<>();
 
     TextView name, time, xzcs, yeshu;
@@ -63,21 +72,22 @@ public class ActivitySc extends MyBaseActivity {
     ImageView xiazai;
     String isdown = "0";
     LinearLayout back;
-
+    Button pre, next;
 
     @Override
     protected void initUI() {
         setContentView(R.layout.activity_sc);
         FileDownloader
                 .registerDownloadStatusListener(mOnFileDownloadStatusListener);
-        back=(LinearLayout)findViewById(R.id.back);
+        back = (LinearLayout) findViewById(R.id.ddd);
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-             finish();
+                finish();
             }
         });
         mSm = (SlidingMenu) findViewById(R.id.sliding_menu);
+        mSm.toggleMenu();
         webView = (WebView) findViewById(R.id.webview);
         name = (TextView) findViewById(R.id.name);
         time = (TextView) findViewById(R.id.time);
@@ -85,14 +95,18 @@ public class ActivitySc extends MyBaseActivity {
         yeshu = (TextView) findViewById(R.id.yeshu);
         xiazai = (ImageView) findViewById(R.id.xiazai);
         mListView = (ListView) findViewById(R.id.id_tree);
-        if (NetWorkUtils.isNetworkConnected(con)&&MyApplication.getApp().getU()!=null)
+        if (NetWorkUtils.isNetworkConnected(con) && MyApplication.getApp().getU() != null)
             getmenu();
+        pre = (Button) findViewById(R.id.pre);
+        next = (Button) findViewById(R.id.next);
     }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
         FileDownloader.unregisterDownloadStatusListener(mOnFileDownloadStatusListener);
     }
+
     @Override
     protected void initData() {
 
@@ -114,6 +128,7 @@ public class ActivitySc extends MyBaseActivity {
                 RetMsg ret = JSON.parseObject(content, RetMsg.class);
                 if (ret.getCode().equals("0")) {
                     list = JSON.parseArray(ret.getData(), danwei.class);
+                    Log.i("tagggg",list.size()+"");
                     mAdapter = new NodeTreeAdapter(con, mListView, mLinkedList);
                     mListView.setAdapter(mAdapter);
                     data = new ArrayList<>();
@@ -123,6 +138,8 @@ public class ActivitySc extends MyBaseActivity {
 //                addOne(data);
                     mLinkedList.addAll(NodeHelper.sortNodes(data));
                     mAdapter.notifyDataSetChanged();
+
+
 
                 }
             }
@@ -150,8 +167,11 @@ public class ActivitySc extends MyBaseActivity {
                     expandOrCollapse(position);
                 }
             });
+
+
             //缩进值，大家可以将它配置在资源文件中，从而实现适配
             retract = (int) (context.getResources().getDisplayMetrics().density * 10 + 0.5f);
+
         }
 
         /**
@@ -159,7 +179,7 @@ public class ActivitySc extends MyBaseActivity {
          *
          * @param position
          */
-        private void expandOrCollapse(int position) {
+        public void expandOrCollapse(int position) {
             Node node = nodeLinkedList.get(position);
             if (node != null && !node.isLeaf()) {
                 boolean old = node.isExpand();
@@ -182,55 +202,116 @@ public class ActivitySc extends MyBaseActivity {
             } else {
                 mSm.toggleMenu();
                 //获取手册的内容
-                RequestParams ps = new RequestParams();
-                ps.add("catalogid", node.get_id());
-                UserClient.get(HttpUrl.GetScDes + ";JSESSIONID=" + MyApplication.getApp().getU().getSessionid(), ps, new AsyncHttpResponseHandler() {
-                    @Override
-                    public void onSuccess(String content) {
-                        super.onSuccess(content);
-                        System.out.println(content);
-                        RetMsg ret = JSON.parseObject(content, RetMsg.class);
-                        if (ret.getCode().equals("0")) {
-                            final JSONObject j = JSON.parseArray(ret.getData()).getJSONObject(0);
-                            name.setText(j.getString("catalogname"));
-                            time.setText(j.getString("publicdate"));
-                            xzcs.setText("");
-                            yeshu.setText("");
-                            isdown = j.getString("isdown");
-                            webView.loadDataWithBaseURL(null, j.getString("content"), "text/html", "utf-8", null);
-                            webView.setWebViewClient(new WebViewClient(){
-                                public boolean shouldOverrideUrlLoading(WebView  view, String url) {
-                                    FileDownloader.start(Url.urls() + url);
-                                    return true;
-                                }
-                            });
-                            xiazai.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    if(isdown.equals("0")) {
-                                        Xiazai x = new Xiazai();
-                                        x.setType("手册");
-                                        x.setXid(j.getString("id"));
-                                        x.setName(j.getString("catalogname"));
-                                        x.setMsg(j.getString("content"));
-                                        x.setTime(j.getString("publicdate"));
-                                        if(DataSupport.where("xid=?",x.getXid()).find(Xiazai.class).size()==0) {
-                                            x.save();
-                                            MyToastUtil.ShowToast(con, "下载成功");
-                                        }else{
-                                            MyToastUtil.ShowToast(con, "下载过了");
-                                        }
-
-                                    }else{
-                                        MyToastUtil.ShowToast(con, "没有权限");
-                                    }
-                                }
-                            });
-                        }
-                    }
-                });
+                getdes(node.get_id());
             }
         }
+
+
+        public void getdes(String id) {
+            RequestParams ps = new RequestParams();
+            ps.add("catalogid", id);
+            UserClient.get(HttpUrl.GetScDes + ";JSESSIONID=" + MyApplication.getApp().getU().getSessionid(), ps, new AsyncHttpResponseHandler() {
+                @Override
+                public void onSuccess(String content) {
+                    super.onSuccess(content);
+                    System.out.println(content);
+                    RetMsg ret = JSON.parseObject(content, RetMsg.class);
+                    if (ret.getCode().equals("0")) {
+                        final JSONObject j = JSON.parseArray(ret.getData()).getJSONObject(0);
+                        name.setText(j.getString("catalogname"));
+                        time.setText(j.getString("publicdate"));
+                        xzcs.setText("");
+                        yeshu.setText("");
+                        isdown = j.getString("isdown");
+                        webView.setWebViewClient(new WebViewClient(){
+                            @Override
+                            public boolean shouldOverrideUrlLoading
+                                    (WebView view, String url) {
+                                Log.i("用户单击超连接", url);
+                                FileDownloader.start(Url.urls() + url);
+
+                                return super.shouldOverrideUrlLoading(view, url);
+                            }
+                        });
+                        content=j.getString("content");
+                        webView.loadDataWithBaseURL(null, j.getString("content"), "text/html", "utf-8", null);
+
+
+                        pre.setVisibility(View.VISIBLE);
+                        next.setVisibility(View.VISIBLE);
+                        pre.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                if (j.getString("prevId") != null && !j.getString("prevId").equals(""))
+                                    getdes(j.getString("prevId"));
+                            }
+                        });
+                        next.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                if (j.getString("nextId") != null && !j.getString("nextId").equals(""))
+                                    getdes(j.getString("nextId"));
+                            }
+                        });
+                        xiazai.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                if (isdown.equals("0")) {
+                                    Xiazai x = new Xiazai();
+                                    x.setType("手册");
+                                    x.setXid(j.getString("id"));
+                                    x.setName(j.getString("catalogname"));
+                                    x.setMsg(j.getString("content"));
+                                    x.setTime(j.getString("publicdate"));
+                                    if (DataSupport.where("xid=?", x.getXid()).find(Xiazai.class).size() == 0) {
+                                        x.save();
+                                        MyToastUtil.ShowToast(con, "下载成功");
+                                    } else {
+                                        MyToastUtil.ShowToast(con, "下载过了");
+                                    }
+
+                                } else {
+                                    MyToastUtil.ShowToast(con, "没有权限");
+                                }
+                            }
+                        });
+
+
+                    }
+                }
+            });
+        }
+        // 监听 所有点击的链接，如果拦截到我们需要的，就跳转到相对应的页面。
+        private class MyWebViewClient extends WebViewClient {
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+
+                    return true;
+            }
+
+            @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+                return true;
+            }
+
+
+
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                super.onPageFinished(view, url);
+                a=a+1;
+                if(a==1) {
+                    FileDownloader.start(Url.urls() + url);
+                }else{
+                    a=0;
+                    Log.i("ddddddsssss","到这里了1111111"+content);
+                    view.loadDataWithBaseURL(null, content, "text/html", "utf-8", null);
+                }
+
+            }
+        }
+
 
         /**
          * 递归收缩用户点击的条目
@@ -304,6 +385,7 @@ public class ActivitySc extends MyBaseActivity {
         }
 
     }
+
     private final OnFileDownloadStatusListener mOnFileDownloadStatusListener = new OnSimpleFileDownloadStatusListener() {
         @Override
         public void onFileDownloadStatusRetrying(
@@ -358,7 +440,7 @@ public class ActivitySc extends MyBaseActivity {
                     + File.separator
                     + "FileDownloader/"
                     + downloadFileInfo.getFileName();
-            startActivity(new Intent(con, ActivityYulan.class).putExtra("url", videopath));
+            startActivity(new Intent(con, ActivityYulan.class).putExtra("url", videopath).putExtra("lx", "1"));
         }
 
         @Override

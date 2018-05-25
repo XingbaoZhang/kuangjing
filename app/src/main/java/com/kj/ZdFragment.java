@@ -3,9 +3,11 @@ package com.kj;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.LinearLayout;
 
 import com.alibaba.fastjson.JSON;
@@ -118,35 +120,59 @@ public class ZdFragment extends Fragment {
                             getlist();
                         }
                     });
-                    listView.setAdapter(new CommonAdapter<Zd>(getActivity(), list, R.layout.zd_item) {
+                    listView.setAdapter(new CommonAdapter<Zd>(getActivity(), list, R.layout.new_bz_item) {
                         @Override
                         public void convert(ViewHolder helper, final Zd item) {
-                            helper.setText(R.id.zdbh, item.getId());
-                            helper.setText(R.id.zdmc, item.getSysName());
-                            helper.setText(R.id.fbsj, item.getPublicdate());
-                            helper.setText(R.id.xzcs, item.getDowntime());
-                            LinearLayout ckxq = (LinearLayout) helper.getView(R.id.ckxq);
-                            LinearLayout xz = (LinearLayout) helper.getView(R.id.xz);
-                            ckxq.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    SharedPreferencesUtils.setParam(getActivity(), "xztype", "ckxq");
-                                    FileDownloader.start(Url.urls() + item.getAffixaddress());
-                                }
-                            });
-                            xz.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    ActivityZdgl.x = new Xiazai();
-                                    ActivityZdgl.x.setName(item.getSysName());
-                                    ActivityZdgl.x.setTime(TimeUtil.getTime());
-                                    ActivityZdgl.x.setType("制度");
-                                    ActivityZdgl.x.setXid(item.getId());
-                                    SharedPreferencesUtils.setParam(getActivity(), "xztype", "zx");
-                                    FileDownloader.start(Url.urls() + item.getAffixaddress());
-
-                                }
-                            });
+                            helper.setText(R.id.name, item.getSysNum() + "  " + item.getSysName());
+//                            helper.setText(R.id.zdmc, item.getSysName());
+//                            helper.setText(R.id.fbsj, item.getPublicdate());
+//                            helper.setText(R.id.xzcs, item.getDowntime());
+//                            LinearLayout ckxq = (LinearLayout) helper.getView(R.id.ckxq);
+//                            LinearLayout xz = (LinearLayout) helper.getView(R.id.xz);
+//                            ckxq.setOnClickListener(new View.OnClickListener() {
+//                                @Override
+//                                public void onClick(View v) {
+//                                    SharedPreferencesUtils.setParam(getActivity(), "xztype", "ckxq");
+//                                    ActivityZdgl.x = new Xiazai();
+//                                    ActivityZdgl.x.setName(item.getSysName());
+//                                    ActivityZdgl.x.setTime(TimeUtil.getTime());
+//                                    ActivityZdgl.x.setType("制度");
+//                                    ActivityZdgl.x.setXid(item.getId());
+//                                    ActivityBzgl.x.setXzzt(getArguments().getString("key"));
+//                                    FileDownloader.start(Url.urls() + item.getAffixaddress());
+//                                    MyToastUtil.ShowToast(getActivity(),"开始加载，请等待...");
+//                                }
+//                            });
+//                            xz.setOnClickListener(new View.OnClickListener() {
+//                                @Override
+//                                public void onClick(View v) {
+//                                    ActivityZdgl.x = new Xiazai();
+//                                    ActivityZdgl.x.setName(item.getSysName());
+//                                    ActivityZdgl.x.setTime(TimeUtil.getTime());
+//                                    ActivityZdgl.x.setType("制度");
+//                                    ActivityZdgl.x.setXid(item.getId());
+//                                    ActivityBzgl.x.setXzzt(getArguments().getString("key"));
+//                                    SharedPreferencesUtils.setParam(getActivity(), "xztype", "zx");
+//                                    FileDownloader.start(Url.urls() + item.getAffixaddress());
+//                                    MyToastUtil.ShowToast(getActivity(),"开始下载，请等待...");
+//
+//                                }
+//                            });
+                        }
+                    });
+                    listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            SharedPreferencesUtils.setParam(getActivity(), "xztype", "ckxq");
+                            Log.i("iddddddd:", getArguments().getString("key"));
+                            ActivityZdgl.x = new Xiazai();
+                            ActivityZdgl.x.setName(list.get(position - 1).getSysName());
+                            ActivityZdgl.x.setTime(TimeUtil.getTime());
+                            ActivityZdgl.x.setType("制度");
+                            ActivityZdgl.x.setXid(list.get(position - 1).getId());
+                            ActivityZdgl.x.setXzzt(getArguments().getString("key"));
+                            FileDownloader.start(Url.urls() + list.get(position - 1).getAffixaddress());
+                            MyToastUtil.ShowToast(getActivity(), "开始加载，请等待...");
                         }
                     });
 
