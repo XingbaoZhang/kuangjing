@@ -5,6 +5,12 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Environment;
 import android.support.annotation.RequiresApi;
+import android.text.Html;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
+import android.text.style.URLSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -67,7 +73,7 @@ public class ActivitySc extends MyBaseActivity {
     private LinkedList<Node> mLinkedList = new LinkedList<>();
 
     TextView name, time, xzcs, yeshu;
-    WebView webView;
+    TextView webView;
     ImageView xiazai;
     String isdown = "0";
     LinearLayout back;
@@ -87,7 +93,7 @@ public class ActivitySc extends MyBaseActivity {
         });
         mSm = (SlidingMenu) findViewById(R.id.sliding_menu);
         mSm.toggleMenu();
-        webView = (WebView) findViewById(R.id.webview);
+        webView = (TextView) findViewById(R.id.webview);
         name = (TextView) findViewById(R.id.name);
         time = (TextView) findViewById(R.id.time);
         xzcs = (TextView) findViewById(R.id.xzcs);
@@ -222,35 +228,37 @@ public class ActivitySc extends MyBaseActivity {
                         xzcs.setText("");
                         yeshu.setText("");
                         isdown = j.getString("isdown");
-                        webView.getSettings().setJavaScriptEnabled(true);
-                        webView.setWebViewClient(new WebViewClient(){
-                            @Override
-                            public boolean shouldOverrideUrlLoading
-                                    (WebView view, String url) {
-                                Log.i("用户单击超连接", url);
-                                FileDownloader.start(Url.urls() + url);
-                                return true;
-                            }
-
-                            @Override
-                            public void onPageFinished(WebView view, String url) {
-                                view.getSettings().setJavaScriptEnabled(true);
-                                Log.i("rrrrrrr","的点点滴滴多多多"+url);
-                                super.onPageFinished(view, url);
-
-
-                            }
-                            @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-                            @Override
-                            public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
-                                Log.i("用户单击超连接1", request.getUrl().toString());
-                                FileDownloader.start(Url.urls() + request.getUrl().toString());
-                                return true;
-                            }
-                        });
-                        content=j.getString("content");
-                        webView.getSettings().setDefaultTextEncodingName("UTF -8");//设置默认为utf-8
-                        webView.loadData(j.getString("content"), "text/html;charset=UTF-8", null);
+                        webView.setText(Html.fromHtml(j.getString("content")));
+                        textHtmlClick(ActivitySc.this,webView);
+//                        webView.getSettings().setJavaScriptEnabled(true);
+//                        webView.setWebViewClient(new WebViewClient(){
+//                            @Override
+//                            public boolean shouldOverrideUrlLoading
+//                                    (WebView view, String url) {
+//                                Log.i("用户单击超连接", url);
+//                                FileDownloader.start(Url.urls() + url);
+//                                return true;
+//                            }
+//
+//                            @Override
+//                            public void onPageFinished(WebView view, String url) {
+//                                view.getSettings().setJavaScriptEnabled(true);
+//                                Log.i("rrrrrrr","的点点滴滴多多多"+url);
+//                                super.onPageFinished(view, url);
+//
+//
+//                            }
+//                            @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+//                            @Override
+//                            public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+//                                Log.i("用户单击超连接1", request.getUrl().toString());
+//                                FileDownloader.start(Url.urls() + request.getUrl().toString());
+//                                return true;
+//                            }
+//                        });
+//                        content=j.getString("content");
+//                        webView.getSettings().setDefaultTextEncodingName("UTF -8");//设置默认为utf-8
+//                        webView.loadData(j.getString("content"), "text/html;charset=UTF-8", null);
                         pre.setVisibility(View.VISIBLE);
                         next.setVisibility(View.VISIBLE);
                         pre.setOnClickListener(new View.OnClickListener() {
@@ -490,4 +498,40 @@ public class ActivitySc extends MyBaseActivity {
             System.out.println(failMsg);
         }
     };
+    /**
+     * 处理html文本超链接点击事件
+     * @param context
+     * @param tv
+     */
+    public static void textHtmlClick(Context context, TextView tv) {
+        tv.setMovementMethod(LinkMovementMethod.getInstance());
+        CharSequence text = tv.getText();
+        if (text instanceof Spannable) {
+            int end = text.length();
+            Spannable sp = (Spannable) text;
+            URLSpan[] urls = sp.getSpans(0, end, URLSpan.class);
+            SpannableStringBuilder style = new SpannableStringBuilder(text);
+            style.clearSpans();// should clear old spans
+            for (URLSpan url : urls) {
+                MyURLSpan myURLSpan = new MyURLSpan(url.getURL(), context);
+                style.setSpan(myURLSpan, sp.getSpanStart(url),
+                        sp.getSpanEnd(url), Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+            }
+            tv.setText(style);
+        }
+    }
+    private static class MyURLSpan extends ClickableSpan {
+        private String mUrl;
+        private Context mContext;
+
+        MyURLSpan(String url, Context context) {
+            mContext = context;
+            mUrl = url;
+        }
+
+        @Override
+        public void onClick(View widget) {
+            FileDownloader.start(Url.urls() + mUrl);
+        }
+    }
 }
