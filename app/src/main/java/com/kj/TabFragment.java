@@ -115,6 +115,11 @@ public class TabFragment extends Fragment {
                         list.add(ll.get(i));
                     }
 
+
+                    for(int i=0;i<list.size();i++){
+                        list.get(i).setPos(i+1+"");
+                    }
+
                     listView.stopRefresh();
                     listView.stopLoadMore();
                     listView.setRefreshTime("刚刚");
@@ -128,7 +133,7 @@ public class TabFragment extends Fragment {
                         @Override
                         public void onLoadMore() {
                             pageNum1 = pageNum1 + 1;
-                            if (Integer.parseInt(j.getString("count")) > pageNum1 * 10)
+                            if (Integer.parseInt(j.getString("count")) > (pageNum1-1) * 10)
                                 getlist();
                             else
                                 listView.stopLoadMore();
@@ -137,7 +142,8 @@ public class TabFragment extends Fragment {
                     listView.setAdapter(new CommonAdapter<Bz>(getActivity(), list, R.layout.new_bz_item) {
                         @Override
                         public void convert(ViewHolder helper, final Bz item) {
-                            helper.setText(R.id.name, item.getStandNum() + "  " + item.getStandName());
+
+                            helper.setText(R.id.name, item.getPos()+ "  " + item.getStandName());
 //                            helper.setText(R.id.bzmc, item.getStandName());
 //                            helper.setText(R.id.fbsj, item.getPublicdate());
 //                            helper.setText(R.id.xzcs, item.getDowntime());

@@ -97,7 +97,7 @@ public class ZdFragment extends Fragment {
                 if (ret.getCode().equals("0")) {
                     if (pageNum1 == 1)
                         list = new ArrayList<Zd>();
-                    JSONObject j = JSON.parseObject(ret.getData());
+                    final JSONObject j = JSON.parseObject(ret.getData());
                     List<Zd> ll = JSON.parseArray(
                             j.getString("list"), Zd.class);
                     for (int i = 0; i < ll.size(); i++) {
@@ -117,6 +117,10 @@ public class ZdFragment extends Fragment {
                         @Override
                         public void onLoadMore() {
                             pageNum1 = pageNum1 + 1;
+                            if (Integer.parseInt(j.getString("count")) > (pageNum1-1) * 10)
+                                getlist();
+                            else
+                                listView.stopLoadMore();
                             getlist();
                         }
                     });
