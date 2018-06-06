@@ -30,6 +30,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.kj.base.MyBaseActivity;
 import com.kj.pojo.RetMsg;
+import com.kj.pojo.URLImageParser;
 import com.kj.pojo.Xiazai;
 import com.kj.pojo.danwei;
 import com.kj.tree.Dept;
@@ -126,6 +127,12 @@ public class ActivitySc extends MyBaseActivity {
     public void getmenu() {
         RequestParams ps = new RequestParams();
         UserClient.post(HttpUrl.GetScTree + ";JSESSIONID=" + MyApplication.getApp().getU().getSessionid(), ps, new AsyncHttpResponseHandler() {
+            @Override
+            public void onFailure(Throwable error, String content) {
+                super.onFailure(error, content);
+                getmenu();
+            }
+
             @Override
             public void onSuccess(String content) {
                 super.onSuccess(content);
@@ -228,7 +235,8 @@ public class ActivitySc extends MyBaseActivity {
                         xzcs.setText("");
                         yeshu.setText("");
                         isdown = j.getString("isdown");
-                        webView.setText(Html.fromHtml(j.getString("content")));
+                        URLImageParser imageGetter = new URLImageParser(webView);
+                        webView.setText(Html.fromHtml(j.getString("content").replace("<img alt=\"\" src=\"","<img alt=\"\" src=\"http://139.224.24.245:7878"),imageGetter,null));
                         textHtmlClick(ActivitySc.this,webView);
 //                        webView.getSettings().setJavaScriptEnabled(true);
 //                        webView.setWebViewClient(new WebViewClient(){
@@ -462,7 +470,7 @@ public class ActivitySc extends MyBaseActivity {
                     + File.separator
                     + "FileDownloader/"
                     + downloadFileInfo.getFileName();
-            startActivity(new Intent(con, ActivityYulan.class).putExtra("url", videopath).putExtra("lx", "1"));
+            startActivity(new Intent(con, ActivityYulan.class).putExtra("url", videopath).putExtra("dd","dd"));
         }
 
         @Override

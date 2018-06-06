@@ -5,7 +5,28 @@ package com.kj.pojo;
  */
 
 public class Zd {
-    private String id,className;
+    private String id;
+
+    public String getIsdown() {
+        return isdown;
+    }
+
+    public void setIsdown(String isdown) {
+        this.isdown = isdown;
+    }
+
+    private String isdown;
+    private String className;
+
+    public String getPos() {
+        return pos;
+    }
+
+    public void setPos(String pos) {
+        this.pos = pos;
+    }
+
+    private String pos;
     private String sysName,classid,affixaddress,publicdate,downtime,sysNum;
 
     public String getSysNum() {

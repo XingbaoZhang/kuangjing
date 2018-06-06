@@ -5,7 +5,6 @@ import android.os.Environment;
 
 import com.kj.R;
 import com.kj.pojo.User;
-import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiscCache;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -79,7 +78,6 @@ public class MyApplication extends Application {
                 getApplicationContext()).defaultDisplayImageOptions(options)
                 .threadPriority(Thread.NORM_PRIORITY - 2)
                 .denyCacheImageMultipleSizesInMemory()
-                .discCache(new UnlimitedDiscCache(cacheDir))
                 .discCacheFileNameGenerator(new Md5FileNameGenerator())
                 .tasksProcessingOrder(QueueProcessingType.LIFO).build();
         ImageLoader.getInstance().init(config);

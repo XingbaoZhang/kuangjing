@@ -129,7 +129,7 @@ public class ActivityZdgl extends MyBaseActivity {
                 //设置tablayout距离上下左右的距离
                 //tab_title.setPadding(20,20,20,20);
                 mFragmentArrays= new Fragment[1];
-                    mFragmentArrays[0] = ZdFragment.newInstance(list.get(0).getId());
+                    mFragmentArrays[0] = ZdFragment.newInstance(list.get(0).getId(),list.get(0).getIsdown());
                 PagerAdapter pagerAdapter = new MyViewPagerAdapter(getSupportFragmentManager());
                 viewPager.setAdapter(pagerAdapter);
                 //将ViewPager和TabLayout绑定

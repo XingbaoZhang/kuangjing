@@ -2,6 +2,7 @@ package com.kj;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.Environment;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -17,11 +18,13 @@ import com.kj.adapter.CommonAdapter;
 import com.kj.adapter.ViewHolder;
 import com.kj.base.MyBaseActivity;
 import com.kj.pojo.RetMsg;
+import com.kj.pojo.Xiazai;
 import com.kj.pojo.sousuo;
 import com.kj.util.HttpUrl;
 import com.kj.util.MyApplication;
 import com.kj.util.MyToastUtil;
 import com.kj.util.NetWorkUtils;
+import com.kj.util.TimeUtil;
 import com.kj.util.Url;
 import com.kj.util.UserClient;
 import com.kj.view.XListView;
@@ -49,6 +52,7 @@ public class Activity_Search extends MyBaseActivity {
     private int pageSize = 10;
     Context con = Activity_Search.this;
     TextView shumu;
+    Xiazai x=new Xiazai();
 
     @Override
     protected void onDestroy() {
@@ -57,11 +61,17 @@ public class Activity_Search extends MyBaseActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        FileDownloader
+                .registerDownloadStatusListener(mOnFileDownloadStatusListener);
+    }
+
+    @Override
     protected void initUI() {
         setContentView(R.layout.activity_search);
         shumu=(TextView)findViewById(R.id.shumu);
-        FileDownloader
-                .registerDownloadStatusListener(mOnFileDownloadStatusListener);
+
         listView = (XListView) findViewById(R.id.listView);
         listView.setPullRefreshEnable(true);
         listView.setPullLoadEnable(true);
@@ -79,6 +89,13 @@ public class Activity_Search extends MyBaseActivity {
                             RetMsg ret = JSON.parseObject(content, RetMsg.class);
                             if (ret.getCode().equals("0")) {
                                 JSONObject j = JSON.parseArray(ret.getData()).getJSONObject(0);
+                                x = new Xiazai();
+                                x.setName(j.getString("standName"));
+                                x.setTime(TimeUtil.getTime());
+                                x.setType("标准");
+                                x.setXid(j.getString("id"));
+                                x.setXzzt(j.getString("isdown"));
+
                                 FileDownloader.start(Url.urls() + j.getString("affixname"));
                             }
                         }
@@ -95,6 +112,12 @@ public class Activity_Search extends MyBaseActivity {
                             RetMsg ret = JSON.parseObject(content, RetMsg.class);
                             if (ret.getCode().equals("0")) {
                                 JSONObject j = JSON.parseArray(ret.getData()).getJSONObject(0);
+                                x = new Xiazai();
+                                x.setName(j.getString("sysName"));
+                                x.setTime(TimeUtil.getTime());
+                                x.setType("制度");
+                                x.setXid(j.getString("id"));
+                                x.setXzzt(j.getString("isdown"));
                                 FileDownloader.start(Url.urls() + j.getString("affixaddress"));
                             }
                         }
@@ -111,6 +134,7 @@ public class Activity_Search extends MyBaseActivity {
                             RetMsg ret = JSON.parseObject(content, RetMsg.class);
                             if (ret.getCode().equals("0")) {
                                 JSONObject j = JSON.parseArray(ret.getData()).getJSONObject(0);
+                                FileDownloader.unregisterDownloadStatusListener(mOnFileDownloadStatusListener);
                                 startActivity(new Intent(Activity_Search.this, ActivityScDes.class).putExtra("name", j.getString("catalogname")).putExtra("time", j.getString("publicdate")).putExtra("id", j.getString("id")).putExtra("msg",j.getString("content")).putExtra("xzcs","").putExtra("yeshu","").putExtra("isdown",j.getString("isdown")));
                             }
                         }
@@ -192,7 +216,11 @@ public class Activity_Search extends MyBaseActivity {
                     + File.separator
                     + "FileDownloader/"
                     + downloadFileInfo.getFileName();
-            startActivity(new Intent(con, ActivityYulan.class).putExtra("url", videopath));
+            FileDownloader.unregisterDownloadStatusListener(mOnFileDownloadStatusListener);
+            Bundle b=new Bundle();
+            x.setUrl(videopath);
+            b.putSerializable("x",x);
+            startActivity(new Intent(con, ActivityYulan.class).putExtra("url", videopath).putExtras(b));
         }
 
         @Override

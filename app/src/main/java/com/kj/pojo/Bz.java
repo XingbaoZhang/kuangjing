@@ -6,7 +6,20 @@ package com.kj.pojo;
 
 public class Bz {
 
-    private String id,className,classRemark,classSort;//分类
+    private String id;
+    private String className;
+    private String classRemark;
+    private String classSort;
+
+    public String getPos() {
+        return pos;
+    }
+
+    public void setPos(String pos) {
+        this.pos = pos;
+    }
+
+    private String pos;//分类
     private String standNum,standName,affixname,publicdate,downtime,isdown;
 
     public String getIsdown() {

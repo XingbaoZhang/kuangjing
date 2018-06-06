@@ -45,10 +45,11 @@ public class ZdFragment extends Fragment {
     private int pageNum1 = 1;// 无关键字页数
     private int pageSize = 10;
 
-    public static Fragment newInstance(String classid) {
+    public static Fragment newInstance(String classid,String isdown) {
         ZdFragment fragment = new ZdFragment();
         Bundle args = new Bundle();
         args.putString("key", classid);
+        args.putString("isdown", isdown);
         fragment.setArguments(args);
 
 
@@ -97,11 +98,15 @@ public class ZdFragment extends Fragment {
                 if (ret.getCode().equals("0")) {
                     if (pageNum1 == 1)
                         list = new ArrayList<Zd>();
-                    JSONObject j = JSON.parseObject(ret.getData());
+                    final JSONObject j = JSON.parseObject(ret.getData());
                     List<Zd> ll = JSON.parseArray(
                             j.getString("list"), Zd.class);
                     for (int i = 0; i < ll.size(); i++) {
                         list.add(ll.get(i));
+                    }
+
+                    for(int i=0;i<list.size();i++){
+                        list.get(i).setPos(i+1+"");
                     }
 
                     listView.stopRefresh();
@@ -116,14 +121,16 @@ public class ZdFragment extends Fragment {
 
                         @Override
                         public void onLoadMore() {
-                            pageNum1 = pageNum1 + 1;
-                            getlist();
+                            if (Integer.parseInt(j.getString("count")) > (pageNum1-1) * 10)
+                                getlist();
+                            else
+                                listView.stopLoadMore();
                         }
                     });
                     listView.setAdapter(new CommonAdapter<Zd>(getActivity(), list, R.layout.new_bz_item) {
                         @Override
                         public void convert(ViewHolder helper, final Zd item) {
-                            helper.setText(R.id.name, item.getSysNum() + "  " + item.getSysName());
+                            helper.setText(R.id.name, item.getPos() + "  " + item.getSysName());
 //                            helper.setText(R.id.zdmc, item.getSysName());
 //                            helper.setText(R.id.fbsj, item.getPublicdate());
 //                            helper.setText(R.id.xzcs, item.getDowntime());
@@ -170,7 +177,7 @@ public class ZdFragment extends Fragment {
                             ActivityZdgl.x.setTime(TimeUtil.getTime());
                             ActivityZdgl.x.setType("制度");
                             ActivityZdgl.x.setXid(list.get(position - 1).getId());
-                            ActivityZdgl.x.setXzzt(getArguments().getString("key"));
+                            ActivityZdgl.x.setXzzt(getArguments().getString("isdown"));
                             FileDownloader.start(Url.urls() + list.get(position - 1).getAffixaddress());
                             MyToastUtil.ShowToast(getActivity(), "开始加载，请等待...");
                         }
