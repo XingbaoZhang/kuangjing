@@ -2,10 +2,7 @@ package com.kj;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Environment;
-import android.support.annotation.RequiresApi;
-import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.method.LinkMovementMethod;
@@ -15,9 +12,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebResourceRequest;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
@@ -30,12 +24,12 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.kj.base.MyBaseActivity;
 import com.kj.pojo.RetMsg;
-import com.kj.pojo.URLImageParser;
 import com.kj.pojo.Xiazai;
 import com.kj.pojo.danwei;
 import com.kj.tree.Dept;
 import com.kj.tree.Node;
 import com.kj.tree.NodeHelper;
+import com.kj.util.HtmlUtils;
 import com.kj.util.HttpUrl;
 import com.kj.util.MyApplication;
 import com.kj.util.MyToastUtil;
@@ -235,8 +229,10 @@ public class ActivitySc extends MyBaseActivity {
                         xzcs.setText("");
                         yeshu.setText("");
                         isdown = j.getString("isdown");
-                        URLImageParser imageGetter = new URLImageParser(webView);
-                        webView.setText(Html.fromHtml(j.getString("content").replace("<img alt=\"\" src=\"","<img alt=\"\" src=\"http://139.224.24.245:7878"),imageGetter,null));
+                        String dd=j.getString("content").replace("src=\"","src=\"http://139.224.24.245:7878");
+                        Log.i("ccccc",dd);
+                        Log.i("dddd",dd.split("<src=\"").length+"");
+                        webView.setText(HtmlUtils.getHtml(getApplicationContext(),webView,dd));
                         textHtmlClick(ActivitySc.this,webView);
 //                        webView.getSettings().setJavaScriptEnabled(true);
 //                        webView.setWebViewClient(new WebViewClient(){
@@ -310,36 +306,6 @@ public class ActivitySc extends MyBaseActivity {
                     }
                 }
             });
-        }
-        // 监听 所有点击的链接，如果拦截到我们需要的，就跳转到相对应的页面。
-        private class MyWebViewClient extends WebViewClient {
-            @Override
-            public boolean shouldOverrideUrlLoading(WebView view, String url) {
-
-                    return true;
-            }
-
-            @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-            @Override
-            public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
-                return true;
-            }
-
-
-
-            @Override
-            public void onPageFinished(WebView view, String url) {
-                super.onPageFinished(view, url);
-                a=a+1;
-                if(a==1) {
-                    FileDownloader.start(Url.urls() + url);
-                }else{
-                    a=0;
-                    Log.i("ddddddsssss","到这里了1111111"+content);
-                    view.loadDataWithBaseURL(null, content, "text/html", "utf-8", null);
-                }
-
-            }
         }
 
 
