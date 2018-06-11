@@ -2,7 +2,11 @@ package com.kj;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
+import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.method.LinkMovementMethod;
@@ -29,7 +33,6 @@ import com.kj.pojo.danwei;
 import com.kj.tree.Dept;
 import com.kj.tree.Node;
 import com.kj.tree.NodeHelper;
-import com.kj.util.HtmlUtils;
 import com.kj.util.HttpUrl;
 import com.kj.util.MyApplication;
 import com.kj.util.MyToastUtil;
@@ -40,6 +43,10 @@ import com.kj.view.SlidingMenu;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.litepal.crud.DataSupport;
 import org.wlf.filedownloader.DownloadFileInfo;
 import org.wlf.filedownloader.FileDownloader;
@@ -47,6 +54,9 @@ import org.wlf.filedownloader.listener.OnFileDownloadStatusListener;
 import org.wlf.filedownloader.listener.simple.OnSimpleFileDownloadStatusListener;
 
 import java.io.File;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -73,7 +83,7 @@ public class ActivitySc extends MyBaseActivity {
     String isdown = "0";
     LinearLayout back;
     Button pre, next;
-
+    private Handler handler;
     @Override
     protected void initUI() {
         setContentView(R.layout.activity_sc);
@@ -220,7 +230,6 @@ public class ActivitySc extends MyBaseActivity {
                 @Override
                 public void onSuccess(String content) {
                     super.onSuccess(content);
-                    System.out.println(content);
                     RetMsg ret = JSON.parseObject(content, RetMsg.class);
                     if (ret.getCode().equals("0")) {
                         final JSONObject j = JSON.parseArray(ret.getData()).getJSONObject(0);
@@ -229,11 +238,75 @@ public class ActivitySc extends MyBaseActivity {
                         xzcs.setText("");
                         yeshu.setText("");
                         isdown = j.getString("isdown");
-                        String dd=j.getString("content").replace("src=\"","src=\"http://139.224.24.245:7878");
-                        Log.i("ccccc",dd);
-                        Log.i("dddd",dd.split("<src=\"").length+"");
-                        webView.setText(HtmlUtils.getHtml(getApplicationContext(),webView,dd));
+//
+                        final Document doc = Jsoup.parse(j.getString("content"));
+                        Elements pngs = doc.select("img[src]");
+                        for (Element element : pngs) {
+                            String imgUrl = element.attr("src");
+                            if (imgUrl.trim().startsWith("/")) {
+                                imgUrl ="http://139.224.24.245:7878" + imgUrl;
+                                element.attr("src", imgUrl);
+                            }
+                        }
+//                        Log.i("dddddd++",doc.toString());
                         textHtmlClick(ActivitySc.this,webView);
+                        handler = new Handler() {
+                            @Override
+                            public void handleMessage(Message msg) {
+                                // TODO Auto-generated method stub
+                                if (msg.what == 0x101) {
+                                    webView.setText((CharSequence) msg.obj);
+
+                                }
+                                super.handleMessage(msg);
+                            }
+                        };
+                        // 因为从网上下载图片是耗时操作 所以要开启新线程
+                        Thread t = new Thread(new Runnable() {
+                            Message msg = Message.obtain();
+
+                            @Override
+                            public void run() {
+                                // TODO Auto-generated method stub
+                                /**
+                                 * 要实现图片的显示需要使用Html.fromHtml的一个重构方法：public static Spanned
+                                 * fromHtml (String source, Html.ImageGetterimageGetter,
+                                 * Html.TagHandler
+                                 * tagHandler)其中Html.ImageGetter是一个接口，我们要实现此接口，在它的getDrawable
+                                 * (String source)方法中返回图片的Drawable对象才可以。
+                                 */
+                                Html.ImageGetter imageGetter = new Html.ImageGetter() {
+
+                                    @Override
+                                    public Drawable getDrawable(String source) {
+                                        // TODO Auto-generated method stub
+                                        URL url;
+                                        Drawable drawable = null;
+                                        try {
+                                            url = new URL(source);
+                                            drawable = Drawable.createFromStream(
+                                                    url.openStream(), null);
+                                            drawable.setBounds(0, 0,
+                                                    drawable.getIntrinsicWidth(),
+                                                    drawable.getIntrinsicHeight());
+                                        } catch (MalformedURLException e) {
+                                            // TODO Auto-generated catch block
+                                            e.printStackTrace();
+                                        } catch (IOException e) {
+                                            // TODO Auto-generated catch block
+                                            e.printStackTrace();
+                                        }
+                                        return drawable;
+                                    }
+                                };
+                                CharSequence test = Html.fromHtml(doc.toString(), imageGetter, null);
+                                msg.what = 0x101;
+                                msg.obj = test;
+                                handler.sendMessage(msg);
+                            }
+                        });
+                        t.start();
+
 //                        webView.getSettings().setJavaScriptEnabled(true);
 //                        webView.setWebViewClient(new WebViewClient(){
 //                            @Override
@@ -508,4 +581,5 @@ public class ActivitySc extends MyBaseActivity {
             FileDownloader.start(Url.urls() + mUrl);
         }
     }
+
 }
