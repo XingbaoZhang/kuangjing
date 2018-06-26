@@ -249,14 +249,14 @@ public class ActivitySc extends MyBaseActivity {
                             }
                         }
 //                        Log.i("dddddd++",doc.toString());
-                        textHtmlClick(ActivitySc.this,webView);
+
                         handler = new Handler() {
                             @Override
                             public void handleMessage(Message msg) {
                                 // TODO Auto-generated method stub
                                 if (msg.what == 0x101) {
                                     webView.setText((CharSequence) msg.obj);
-
+                                    textHtmlClick(ActivitySc.this,webView);
                                 }
                                 super.handleMessage(msg);
                             }
