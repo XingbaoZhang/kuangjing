@@ -232,22 +232,27 @@ public class SlidingMenu extends HorizontalScrollView {
         }
     }
 
-    /**
-     * 8.处理事件分发
-     */
-    @Override
-    public boolean dispatchTouchEvent(MotionEvent ev) {
-        if (mMenuIsOpen) {
-            // 如果菜单是打开的  并且手指按下的位置是 大于菜单位置
-            int fingerDownX = (int) ev.getX();
-            if (fingerDownX > mMenuWidth) {
-                // 关闭菜单 并且停止分发事件
-                closeMenu();
-                return false;
-            }
-        }
-        return super.dispatchTouchEvent(ev);
-    }
+//    /**
+//     * 8.处理事件分发
+//     */
+//    @Override
+//    public boolean dispatchTouchEvent(MotionEvent ev) {
+//        if (mMenuIsOpen) {
+//            // 如果菜单是打开的  并且手指按下的位置是 大于菜单位置
+//            int fingerDownX = (int) ev.getX();
+//            if (fingerDownX > mMenuWidth) {
+//                // 关闭菜单 并且停止分发事件
+//                closeMenu();
+//                return false;
+//            }
+//        }
+//        try {
+//            return super.dispatchTouchEvent(ev);
+//        }catch (Exception e){
+//            return false;
+//        }
+//
+//    }
 
     /**
      * 切换菜单的状态
